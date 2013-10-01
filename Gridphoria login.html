@@ -1,0 +1,77 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+	    <title>Marist Gridphoria Authentication Service</title>
+
+
+
+
+                <link type="text/css" rel="stylesheet" href="css/marist.css" />
+
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="/cas/js/cas.js"></script>
+	    <link rel="icon" href="/cas/favicon.ico" type="image/x-icon" />
+	</head>
+	<body id="cas" class="fl-theme-iphone">
+    <div class="flc-screenNavigator-view-container">
+        <div class="fl-screenNavigator-view">
+            <div id="header">
+
+                <a href="http://www.marist.edu"></a>
+              </div>
+            </div>
+            <div id="content">
+
+			<form id="fm1" class="fm-v clearfix" action="/cas/login?service=https%3A%2F%2Filearn.marist.edu%2Fsakai-login-tool%2Fcontainer" method="post">
+
+                <div id="welcome">
+                 <div style="margin-left: auto; margin-right: auto; left: 50%; width: 300px;">
+                <!-- Congratulations on bringing CAS online!  The default authentication handler authenticates where usernames equal passwords: go ahead, try it out.  -->
+                    <p><strong>Enter your Marist Gridphoria Account and Password.</strong></p>
+                    <div>
+                        <label for="username" class="fl-label"><span class="accesskey">A</span>ccount:</label>
+
+
+
+						<br/>
+						<input id="username" name="username" class="required" tabindex="1" accesskey="n" type="text" value="" size="32" autocomplete="false"/>
+
+                    </div><br/>
+                    <div class="row fl-controls-left">
+                        <label for="password" class="fl-label"><span class="accesskey">P</span>assword:</label>
+
+						<br/>
+						<input id="password" name="password" class="required" tabindex="2" accesskey="p" type="password" value="" size="32" autocomplete="off"/>
+                    </div>
+                    <div class="row btn-row">
+						<input type="hidden" name="lt" value="LT-92b4d741-222d-97f5-c403-5f535c376b87Ze3s1" />
+						<input type="hidden" name="_eventId" value="submit" />
+
+                        <br/><input class="btn-submit" name="submit" accesskey="l" value="LOGIN" tabindex="4" type="submit" />
+                        <input class="btn-reset" name="reset" accesskey="c" value="CLEAR" tabindex="5" type="reset" />
+                        <br/><br/><p id="warning">For security reasons, please Log Out and Exit your web browser when you are done accessing services that require authentication!</p>
+                        <br/><a href="https://acctmgmt.it.marist.edu">Change Password</a>
+                    </div>
+                  </div>
+                </div>
+            </form>
+
+
+                </div>
+                <div id="copyright">
+                    <div>
+                        <p>Copyright &copy; <a href="http://www.marist.edu">Marist College</a>. All rights reserved.</p>
+                        <p>Powered by <a href="http://www.jasig.org/cas">Jasig CAS</a></p>
+                        <!--  -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
