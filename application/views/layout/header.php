@@ -15,8 +15,8 @@
         <header>
 
         <div class="row">
-            <div class="large-3 columns">
-                <h1><img src="http://placehold.it/400x100&text=Logo" /></h1>
+            <div class="large-3 columns logo">
+                <img src="/assets/img/logo.png" />
             </div>
             <div class="large-9 columns">
                 <ul class="right button-group">

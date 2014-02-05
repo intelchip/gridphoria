@@ -12,3 +12,8 @@ and open the template in the editor.
     display: block;
     min-height: 300px;
 }
+
+.logo img{
+    height: 70px;
+    width: auto;
+}
