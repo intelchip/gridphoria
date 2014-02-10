@@ -3,7 +3,7 @@
 <!-- Call to Action Panel -->
 <div class="row">
     <div class="large-12 columns">
-
+<?php /*
         <div class="panel">
             <h4>Get in touch!</h4>
 
@@ -16,8 +16,10 @@
                 </div>
             </div>
         </div>
+ 
 
-    </div>
+    </div>* 
+ */ ?>
 </div>
 <!-- Footer -->
 

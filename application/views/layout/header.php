@@ -20,10 +20,8 @@
             </div>
             <div class="large-9 columns">
                 <ul class="right button-group">
-                    <li><a href="#" class="button">Link 1</a></li>
-                    <li><a href="#" class="button">Link 2</a></li>
-                    <li><a href="#" class="button">Link 3</a></li>
-                    <li><a href="#" class="button">Link 4</a></li>
+                    <li><a href="/index.php?/pages/register" class="button">Register</a></li>
+                    <li><a href="/index.php?/pages/login" class="button">Login</a></li>
                 </ul>
             </div>
         </div>
