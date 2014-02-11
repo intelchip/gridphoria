@@ -7,7 +7,6 @@ if ($message == "fail") {
     ?>
     <div data-alert class="alert-box warning">
         There is a problem logging in. Please try again!
-        <!--<a href="#" class="close">&times;</a>-->
     </div>
     <?php
 }
@@ -21,7 +20,7 @@ if ($message == "fail") {
     <div class="large-6 column">
 
         <label>Email
-            <input type="text" name="data[user][email]">
+            <input type="text" name="data[user][email]" value="<?php echo $CI->input->get("email") ? $CI->input->get("email") : ""; ?>">
         </label>
 
         <label>Password

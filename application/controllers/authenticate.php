@@ -54,7 +54,7 @@ class Authenticate extends CI_Controller {
             endif;
 
         else:
-            redirect("/pages/login/fail");
+            redirect("/pages/login/fail?email=" . $this->usermodel->email);
         endif;
     }
 
@@ -105,8 +105,8 @@ class Authenticate extends CI_Controller {
 
                 // set session data
                 $this->session->set_userdata($newdata);
-                
-                
+
+
                 // redirect back to main page to get to the dashboard
                 redirect(base_url() . "index.php?/dashboard");
             } else {
