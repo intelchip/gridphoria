@@ -1,10 +1,7 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
 
 class Authenticate extends CI_Controller {
 
@@ -14,6 +11,9 @@ class Authenticate extends CI_Controller {
      */
     var $data = null;
 
+    /**
+     * Constructor
+     */
     public function __construct() {
         parent::__construct();
 
@@ -22,8 +22,9 @@ class Authenticate extends CI_Controller {
         $this->data = $this->input->post("data");
 
         // redirect users if there is no session		
-        if ($this->session_uid)
+        if ($this->session_uid) {
             redirect(base_url());
+        }
     }
 
     /**
@@ -33,7 +34,7 @@ class Authenticate extends CI_Controller {
     public function user($option = null) {
 
         $data = $this->input->post("data");
-        $this->usermodel->email = $this->db->escape_str($data["user"]["username"]);
+        $this->usermodel->email = $this->db->escape_str($data["user"]["email"]);
         $this->usermodel->password = $this->db->escape_str(sha1($data["user"]["password"]));
 
         if ($this->usermodel->authenticate_user()):
@@ -53,10 +54,13 @@ class Authenticate extends CI_Controller {
             endif;
 
         else:
-            redirect("/pages/login/fail");
+//            redirect("/pages/login/fail");
         endif;
     }
 
+    /**
+     * Registers a new user
+     */
     public function register_user() {
 
 
@@ -66,6 +70,7 @@ class Authenticate extends CI_Controller {
             $first_name = $this->data['user']['first_name'];
             $last_name = $this->data['user']['last_name'];
             $password = sha1($this->data['user']['password']);
+            $cpassword = sha1($this->data['user']['cpassword']);
             $role = $this->data['user']['role'];
             $modified = time();
             $modified_by = "SYS";
@@ -80,11 +85,13 @@ class Authenticate extends CI_Controller {
             $user->modified_by = $modified_by;
 
             if (!$user->check_user() &&
-                    !isset($email) &&
-                    !isset($first_name) &&
-                    !isset($last_name) &&
+                    !empty($email) &&
+                    !empty($first_name) &&
+                    !empty($last_name) &&
                     is_numeric($role) &&
-                    !isset($password)) {
+                    !empty($password) &&
+                    !empty($cpassword) &&
+                    $password == $cpassword) {
 
                 print_r($this->data);
 
@@ -96,11 +103,14 @@ class Authenticate extends CI_Controller {
                     'logged_in' => true
                 );
 
-//                    redirect(base_url());
-
+                // set session data
                 $this->session->set_userdata($newdata);
+                
+                
+                // redirect back to main page to get to the dashboard
+                redirect(base_url() . "index.php?/dashboard");
             } else {
-                echo "<h2>Sorry but you are already Registered!</h2>";
+                echo "<h2>Sorry something went wrong! :(</h2>";
             }
         }
     }

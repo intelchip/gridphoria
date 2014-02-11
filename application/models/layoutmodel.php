@@ -28,7 +28,7 @@ class Layoutmodel extends CI_Model {
         );
         $this->js = array(
             array("vendor/modernizr.js"),
-            array("foundation.js")
+            array("foundation.min.js")
         );
 
         $this->carabiner->group('main-styles', array('css' => $this->css));

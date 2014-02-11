@@ -14,17 +14,33 @@
     <body>
         <header>
 
-        <div class="row">
-            <div class="large-3 columns logo">
-                <img src="/assets/img/logo.png" />
+            <div class="row">
+                <div class="large-3 columns logo">
+                    <img src="/assets/img/logo.png" />
+                </div>
+                <div class="large-9 columns">
+                    <ul class="right button-group">
+                        <?php
+                        $CI = & get_instance();
+
+                        $current_user = $CI->session->userdata("uid");
+                        if (!$current_user) {
+                            ?>
+                            <li><a href="/index.php?/pages/register" class="button">Register</a></li>
+                            <li><a href="/index.php?/pages/login" class="button">Login</a></li>
+                            <?php
+                        } else {
+                            ?>
+                            <li><a href="/index.php?/dashboard/" class="button">Dashboard</a></li>
+                            <li><a href="/index.php?/dashboard/" class="button">Add Classes</a></li>
+                            <li><a href="/index.php?/dashboard/" class="button">View Courses</a></li>
+                            <li><a href="/index.php?/dashboard/logout" class="button">Logout</a></li>
+                            <?php
+                        }
+                        ?>
+                    </ul>
+                </div>
             </div>
-            <div class="large-9 columns">
-                <ul class="right button-group">
-                    <li><a href="/index.php?/pages/register" class="button">Register</a></li>
-                    <li><a href="/index.php?/pages/login" class="button">Login</a></li>
-                </ul>
-            </div>
-        </div>
-        
+
         </header>
         <div class="main-content">

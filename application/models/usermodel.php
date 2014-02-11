@@ -22,7 +22,6 @@ class UserModel implements UserInterface {
     private $modified;
     private $modified_by;
 
-
     /**
      * Session Data
      * @var array $session_data 
@@ -53,7 +52,7 @@ class UserModel implements UserInterface {
         $this->session_logged_in = $this->CI->session->userdata('logged_in');
         $this->session_data = $this->CI->session->all_userdata();
 
-        if ($this->_id) {
+        if ($this->id) {
             $this->get_user();
         }
 
@@ -65,7 +64,7 @@ class UserModel implements UserInterface {
      * Our Destructor 
      */
     public function __destruct() {
-        
+
         foreach ($this as $key => $value) {
             unset($this->$key);
         }
@@ -105,15 +104,15 @@ class UserModel implements UserInterface {
     public function authenticate_user() {
 
         $sql = "select * from users where email = '{$this->email}' && password = '{$this->password}'";
-        $result = $this->CI->db->query($sql);
+        $query = $this->CI->db->query($sql);
 
-        $this->_id = $result->row()->id;
+        if ($query->num_rows() > 0) {
 
-        if ($this->_id > 0) {
+            $this->id = $query->row()->id;
             $this->get_user();
         }
 
-        return $result->num_rows() > 0;
+        return $query->num_rows() > 0;
     }
 
     /**
@@ -129,8 +128,6 @@ class UserModel implements UserInterface {
         if ($result->num_rows() > 0) {
             $this->id = $row->id;
         }
-        
-//        echo $result->num_rows() . " <== rows";
 
         return $result->num_rows() > 0;
     }
@@ -164,7 +161,7 @@ class UserModel implements UserInterface {
         if ($this->session_uid > 0) {
 
             $row = $this->CI->db->query($sql)->row();
-            
+
             $this->id = $row->id;
             $this->email = $row->email;
             $this->first_name = $row->first_name;
@@ -189,12 +186,12 @@ class UserModel implements UserInterface {
                 from
                     users
                 where
-                    id = {$this->_id}";
+                    id = {$this->id}";
 
-        if ($this->_id > 0) {
+        if ($this->id > 0) {
 
             $row = $this->CI->db->query($sql)->row();
-            
+
             $this->id = $row->id;
             $this->email = $row->email;
             $this->first_name = $row->first_name;
@@ -214,7 +211,7 @@ class UserModel implements UserInterface {
      */
     public function resetpassword() {
 
-        $sql = "update users set password = '{$this->password}' where id = '{$this->_id}'";
+        $sql = "update users set password = '{$this->password}' where id = '{$this->id}'";
         $this->CI->db->query($sql);
     }
 
@@ -240,7 +237,7 @@ class UserModel implements UserInterface {
                         '{$this->role_id}', 
                         '{$this->modified}', 
                         '{$this->modified_by}')";
-                        
+
         echo $sql;
 
         $this->CI->db->query($sql);
