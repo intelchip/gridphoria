@@ -32,8 +32,8 @@
                         } else {
                             ?>
                             <li><a href="/index.php?/dashboard/">Dashboard</a></li>
-                            <li><a href="/index.php?/dashboard/">Add Classes</a></li>
-                            <li><a href="/index.php?/dashboard/">View Courses</a></li>
+                            <li><a href="/index.php?/dashboard/add_courses">Add Courses</a></li>
+                            <li><a href="/index.php?/dashboard/view_courses">View Courses</a></li>
                             <li><a href="/index.php?/dashboard/logout">Logout</a></li>
                             <?php
                         }
@@ -44,3 +44,4 @@
 
         </header>
         <div class="main-content">
+            <div class="row">

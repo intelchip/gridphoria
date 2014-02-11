@@ -8,20 +8,41 @@ class Pages extends CI_Controller {
     public function __construct() {
         parent::__construct();
 
+        $this->session_uid = $this->usermodel->session_uid;
+        $this->session_logged_in = $this->usermodel->session_logged_in;
 //        $this->output->enable_profiler(TRUE);
     }
 
     public function index() {
         redirect(base_url());
     }
-    
-    public function login(){
+
+    /**
+     * Login page
+     */
+    public function login() {
+
+        // redirect back to home if logged in
+        if ($this->session_uid) {
+            redirect(base_url());
+        }
+
         $data = $this->layoutmodel->main("Gridphoria | Login");
         $this->load->view("layout/header", $data);
         $this->load->view("pages/login", $data);
         $this->load->view("layout/footer", $data);
     }
-    public function register(){
+
+    /**
+     * Register page
+     */
+    public function register() {
+
+        // redirect back to home if logged in
+        if ($this->session_uid) {
+            redirect(base_url());
+        }
+
         $data = $this->layoutmodel->main("Gridphoria | Register");
         $this->session->unset_userdata("uid");
         $this->session->unset_userdata("logged_in");

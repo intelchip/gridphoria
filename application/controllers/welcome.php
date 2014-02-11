@@ -25,7 +25,13 @@ class Welcome extends CI_Controller {
      * @see http://codeigniter.com/user_guide/general/urls.html
      */
     public function index() {
-        redirect("/pages/login");
+
+        // Redirect to the right location
+        if ($this->session->userdata("uid")) {
+            redirect("/dashboard");
+        } else {
+            redirect("/pages/login");
+        }
     }
 
 }
