@@ -7,13 +7,59 @@ and open the template in the editor.
     Created on : Feb 5, 2014, 4:35:54 PM
     Author     : jamesarama
 */
-
+#header {
+    display: block;
+    height: 49px;
+    position: relative;
+    margin: 0;
+    padding: 0 13px 0 0;
+    background-color: #f3f3f3;
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#f3f3f3),to(#e2e2e2));
+    background-image: -webkit-linear-gradient(top,#f3f3f3,#e2e2e2);
+    background-image: -webkit-gradient(linear,top left,bottom left,from(#f3f3f3),to(#e2e2e2));
+    background-image: -webkit-linear-gradient(top,#f3f3f3,#e2e2e2);
+    background-image: linear-gradient(to bottom,#f3f3f3,#e2e2e2);
+    background-repeat: repeat-x;
+    box-shadow: 0 2px 6px #8B8B8B;
+}
 .main-content{
     display: block;
     min-height: 300px;
+    padding: 20px 0;
 }
 
 .logo img{
-    height: 70px;
+    /*height: 70px;*/
     width: auto;
+    cursor: pointer;
+}
+
+h1, h2, h3, h4 {
+    margin: 0;
+    font-family: "Open Sans",Arial,Helvetica,Sans-Serif;
+    font-weight: 300;
+}
+
+.nav-bar li a{
+    border-left: 1px dotted #c7c7c7;
+    padding: 15px 25px;
+    color: #000;
+}
+
+.nav-bar li:last-child a{    
+    border-right: 1px dotted #c7c7c7;
+}
+
+.nav-bar li a:hover{
+    background: #ccc;
+    text-shadow: #eee 0 1px;
+}
+
+.nav-bar li a:active{
+    background: #aaa;
+}
+
+.nav-bar{
+    position: relative;
+    top: 13px;
 }

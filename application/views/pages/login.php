@@ -8,7 +8,7 @@
         ?>
         <div data-alert class="alert-box warning">
             There is a problem logging in. Please try again!
-            <a href="#" class="close">&times;</a>
+            <!--<a href="#" class="close">&times;</a>-->
         </div>
         <?php
     }

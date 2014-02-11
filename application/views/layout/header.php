@@ -12,29 +12,29 @@
         ?>
     </head>
     <body>
-        <header>
+        <header id="header">
 
             <div class="row">
                 <div class="large-3 columns logo">
-                    <img src="/assets/img/logo.png" />
+                    <img src="/assets/img/logo.png" onclick="window.location='<?php echo base_url(); ?>'" />
                 </div>
                 <div class="large-9 columns">
-                    <ul class="right button-group">
+                    <ul class="right nav-bar button-group">
                         <?php
                         $CI = & get_instance();
 
                         $current_user = $CI->session->userdata("uid");
                         if (!$current_user) {
                             ?>
-                            <li><a href="/index.php?/pages/register" class="button">Register</a></li>
-                            <li><a href="/index.php?/pages/login" class="button">Login</a></li>
+                            <li><a href="/index.php?/pages/register">Register</a></li>
+                            <li><a href="/index.php?/pages/login">Login</a></li>
                             <?php
                         } else {
                             ?>
-                            <li><a href="/index.php?/dashboard/" class="button">Dashboard</a></li>
-                            <li><a href="/index.php?/dashboard/" class="button">Add Classes</a></li>
-                            <li><a href="/index.php?/dashboard/" class="button">View Courses</a></li>
-                            <li><a href="/index.php?/dashboard/logout" class="button">Logout</a></li>
+                            <li><a href="/index.php?/dashboard/">Dashboard</a></li>
+                            <li><a href="/index.php?/dashboard/">Add Classes</a></li>
+                            <li><a href="/index.php?/dashboard/">View Courses</a></li>
+                            <li><a href="/index.php?/dashboard/logout">Logout</a></li>
                             <?php
                         }
                         ?>

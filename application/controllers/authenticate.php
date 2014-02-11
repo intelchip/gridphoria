@@ -54,7 +54,7 @@ class Authenticate extends CI_Controller {
             endif;
 
         else:
-//            redirect("/pages/login/fail");
+            redirect("/pages/login/fail");
         endif;
     }
 
