@@ -170,9 +170,10 @@ class UserModel implements UserInterface {
             $this->role_id = $row->role_id;
             $this->modified = $row->modified;
             $this->modified_by = $row->modified_by;
+            return $this;
         }
 
-        return $this;
+        return null;
     }
 
     /**
@@ -220,6 +221,9 @@ class UserModel implements UserInterface {
      * @return void 
      */
     public function save() {
+        
+        $this->modified = time();
+        $this->modified_by = "SYS";
 
         $sql = "insert 
               into 
@@ -237,9 +241,7 @@ class UserModel implements UserInterface {
                         '{$this->role_id}', 
                         '{$this->modified}', 
                         '{$this->modified_by}')";
-
-        echo $sql;
-
+                        
         $this->CI->db->query($sql);
     }
 

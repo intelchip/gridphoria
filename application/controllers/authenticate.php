@@ -37,7 +37,7 @@ class Authenticate extends CI_Controller {
         $this->usermodel->email = $this->db->escape_str($data["user"]["email"]);
         $this->usermodel->password = $this->db->escape_str(sha1($data["user"]["password"]));
 
-        if ($this->usermodel->authenticate_user()):
+        if ($this->usermodel->authenticate_user()) {
 
             $newdata = array(
                 'uid' => $this->usermodel->id,
@@ -47,15 +47,12 @@ class Authenticate extends CI_Controller {
 
             $this->session->set_userdata($newdata);
 
-            if ($option == "redirectback"):
+            if ($option == "redirectback")
                 redirect($_SERVER['HTTP_REFERER']);
-            else:
+            else
                 redirect("/dashboard");
-            endif;
-
-        else:
+        } else
             redirect("/pages/login/fail?email=" . $this->usermodel->email);
-        endif;
     }
 
     /**
