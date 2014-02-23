@@ -78,4 +78,3 @@ interface UserInterface {
     public function delete();
 }
 
-?>

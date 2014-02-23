@@ -5,8 +5,27 @@ if (!defined('BASEPATH'))
 
 class Dashboard extends CI_Controller {
 
+    /**
+     * Session uid
+     * @var int $session_uid 
+     */
+    public static $session_uid = null;
+
+    /**
+     * Logged in?
+     * @var boolean $session_logged_in 
+     */
+    public static $session_logged_in = null;
+
+    /**
+     * Default Constructor 
+     */
     public function __construct() {
         parent::__construct();
+
+        $this->data = $this->input->post("data");
+        $this->session_uid = $this->usermodel->session_uid;
+        $this->session_logged_in = $this->usermodel->session_logged_in;
 
 //        $this->output->enable_profiler(TRUE);
     }
