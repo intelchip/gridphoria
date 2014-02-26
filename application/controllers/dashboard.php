@@ -56,6 +56,14 @@ class Dashboard extends CI_Controller {
         $this->load->view("dashboard/view_courses");
         $this->load->view("layout/footer", $data);
     }
+    
+    public function edit_course($id){
+        
+        $data = $this->layoutmodel->main("Gridphoria | Edit Course");
+        $this->load->view("layout/header", $data);
+        $this->load->view("dashboard/edit_course");
+        $this->load->view("layout/footer", $data);
+    }
 
     /**
      * Logs out the user by destroying the current session

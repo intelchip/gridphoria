@@ -18,6 +18,7 @@ $CI = & get_instance();
             <th>Slot</th>
             <th>Modified on</th>
             <th>Modified by</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -37,6 +38,10 @@ $CI = & get_instance();
                     <td>{$row->slot}</td>
                     <td>{$row->modified}</td>
                     <td>{$row->modified_by}</td>
+                    <td>
+                        <a href='/index.php?/dashboard/edit_course/{$row->id}'>edit</a><br />
+                        <a href='/index.php?/dashboard/delete_course/{$row->id}'>delete</a>   
+                    </td>
                  <tr>";
         }
         ?>

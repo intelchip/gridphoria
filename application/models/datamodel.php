@@ -54,5 +54,11 @@ class Datamodel extends CI_Model {
         $query = $this->db->query($sql);
         return $query->result();
     }
+    
+    public function getCourse($id){        
+        $sql = "select * from courses where id='$id'";
+        $query = $this->db->query($sql);
+        return $query->row();
+    }
 
 }

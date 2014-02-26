@@ -24,11 +24,16 @@ class Layoutmodel extends CI_Model {
 
         $this->css = array(
             array('main.css?version=2.0&amp;time=' . time()),
-            array('foundation.css')
+            array('foundation.css'),
+            array("jquery.timepicker.css"),
+            array('bootstrap-datepicker.css')
         );
         $this->js = array(
             array("vendor/modernizr.js"),
-            array("foundation.min.js")
+            array("foundation.min.js"),
+            array("jquery.timepicker.js"),
+            array("bootstrap-datepicker.js"),
+            array("common.js")
         );
 
         $this->carabiner->group('main-styles', array('css' => $this->css));
