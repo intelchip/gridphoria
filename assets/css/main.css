@@ -63,3 +63,11 @@ h1, h2, h3, h4 {
     position: relative;
     top: 13px;
 }
+
+.course-schedule input[type=text]{
+    width: 33.33333% !important;
+}
+
+.courses-table tr td {
+    vertical-align: top !important;
+}

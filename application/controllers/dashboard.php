@@ -64,6 +64,11 @@ class Dashboard extends CI_Controller {
         $this->load->view("dashboard/edit_course");
         $this->load->view("layout/footer", $data);
     }
+    
+    public function delete_course($id){
+        $this->datamodel->deleteCourse($id);        
+        redirect(base_url()."index.php?/dashboard/view_courses");
+    }
 
     /**
      * Logs out the user by destroying the current session

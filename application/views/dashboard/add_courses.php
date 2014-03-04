@@ -5,12 +5,20 @@ $CI = & get_instance();
     <h4>Add Courses</h4>
 </div>
 <?php
-if(@$_GET["success"]=="true"){
-?>
-<div data-alert class="alert-box success radius">
-  You have successfully added a course.
-  <!--<a href="#" class="close">&times;</a>-->
-</div>
+if (@$_GET["success"] == "true") {
+    ?>
+    <div data-alert class="alert-box success radius">
+        You have successfully added a course.
+        <a href="#" class="close">&times;</a>
+
+    </div>
+<?php } else if (@$_GET["success"] == "error") {
+    ?>
+    <div data-alert class="alert-box warning radius">
+        There was a problem saving the course to the database.
+        <a href="#" class="close">&times;</a>
+
+    </div>
 <?php } ?>
 <form method="post" action="/index.php?/post/add_courses" data-abide>
     <div class="clearfix"></div>
@@ -49,18 +57,32 @@ if(@$_GET["success"]=="true"){
             </label>
         </div>
 
-        <div class="start-time-field">
-            <label>Start Time <small>required</small>
-                <input id="startTime" type="text" name="data[course][start_time]" required />
-            </label>
-            <small class="error">Start time is required.</small>
-        </div>
-
-        <div class="end-time-field">
-            <label>End Time <small>required</small>
-                <input id="endTime" type="text" name="data[course][end_time]" required />
-            </label>
-            <small class="error">Start time is required.</small>
+        <div class="times-offered">
+            <label>Times offered <small>Required</small></label>
+            <?php
+            $days = array(
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday"
+            );
+            ?>
+            <div class="course-schedule">
+                <select class="columns large-4 left" name="data[course][schedule][0][day]" required>
+                    <option> -- Select Day --</option>
+                    <?php
+                    foreach ($days as $day) {
+                        echo "<option value='$day'>$day</option>";
+                    }
+                    ?>
+                </select>
+                <input class="timepicker left" type="text" name="data[course][schedule][0][start_time]" placeholder="Start Time" required />
+                <input class="timepicker left" type="text" name="data[course][schedule][0][end_time]" placeholder="End Time" required />
+            </div>
+            <a id="addNewTimescheduleField" class="right" href="javascript:void(0)">Add time slot</a>
+            <p></p>
+            <div class="clearfix"></div>
         </div>
 
         <div class="semseter-field">
@@ -80,7 +102,7 @@ if(@$_GET["success"]=="true"){
 
         <div class="slot-field">
             <label>Slot <small>required</small>
-                <select name="data[course][slot]" required="">
+                <select name="data[course][slot]" required>
                     <option>-- Select a slot --</option>
                     <?php
                     foreach ($CI->datamodel->getSlots() as $row) {

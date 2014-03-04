@@ -42,19 +42,41 @@ $course = $CI->datamodel->getCourse($id);
                 </select>
             </label>
         </div>
+        <div class="times-offered">
+            <label>Times offered <small>Required</small></label>
+            <?php
+            $count = 0;
+            $schedule_results = $CI->datamodel->getCourseSchedule($course->id);
+            $days = array(
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday"
+            );
 
-        <div class="start-time-field">
-            <label>Start Time <small>required</small>
-                <input id="startTime" type="text" name="data[course][start_time]" required value="<?php echo $course->start_time; ?>" />
-            </label>
-            <small class="error">Start time is required.</small>
-        </div>
-
-        <div class="end-time-field">
-            <label>End Time <small>required</small>
-                <input id="endTime" type="text" name="data[course][end_time]" required value="<?php echo $course->end_time; ?>"/>
-            </label>
-            <small class="error">Start time is required.</small>
+            foreach ($schedule_results as $sch) {
+                ?>
+                <div class="course-schedule">
+                    <select class="columns large-4 left" name="data[course][schedule][<?php echo $count; ?>][day]" required>
+                        <option> -- Select Day --</option>
+                        <?php
+                        foreach ($days as $day) {
+                            echo "<option value='$day'" . ($day == $sch->day ? "selected='selected'" : "") . ">$day</option>";
+                        }
+                        ?>
+                    </select>
+                    <input class="timepicker left" type="text" name="data[course][schedule][<?php echo $count; ?>][start_time]" placeholder="Start Time" required value="<?php echo $sch->start_time; ?>" />
+                    <input class="timepicker left" type="text" name="data[course][schedule][<?php echo $count; ?>][end_time]" placeholder="End Time" required value="<?php echo $sch->end_time; ?>" />
+                    <a data-schedulefield="<?php echo $count; ?>" class="timeschedule-delete" href="javascript:void(0)">remove</a>
+                </div>
+                <?php
+                $count++;
+            }
+            ?>
+            <a id="addNewTimescheduleField" class="right" href="javascript:void(0)">Add time slot</a>
+            <p></p>
+            <div class="clearfix"></div>
         </div>
 
         <div class="semseter-field">
@@ -64,7 +86,7 @@ $course = $CI->datamodel->getCourse($id);
 
                     <?php
                     foreach ($CI->datamodel->getSemesters() as $row) {
-                        echo "<option value = '{$row->id}' ".($row->id == $course->semester ? "selected='true'" : "").">{$row->semester}</option>";
+                        echo "<option value = '{$row->id}' " . ($row->id == $course->semester ? "selected='true'" : "") . ">{$row->semester}</option>";
                     }
                     ?>
                 </select>
@@ -78,7 +100,7 @@ $course = $CI->datamodel->getCourse($id);
                     <option>-- Select a slot --</option>
                     <?php
                     foreach ($CI->datamodel->getSlots() as $row) {
-                        echo "<option value = '{$row->id}'' ".($row->id == $course->slot ? "selected='true'" : "").">{$row->slot_number}</option>";
+                        echo "<option value = '{$row->id}'' " . ($row->id == $course->slot ? "selected='true'" : "") . ">{$row->slot_number}</option>";
                     }
                     ?>
                 </select>

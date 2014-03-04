@@ -7,6 +7,8 @@ if ($message == "fail") {
     ?>
     <div data-alert class="alert-box warning">
         There is a problem logging in. Please try again!
+        <a href="#" class="close">&times;</a>
+
     </div>
     <?php
 }
@@ -20,15 +22,15 @@ if ($message == "fail") {
     <div class="large-6 column">
 
         <div class="email-field">
-            <label>Email <small>required</small>
-                <input type="text" name="data[user][email]" value="<?php echo $CI->input->get("email") ? $CI->input->get("email") : ""; ?>" required>
+            <label for="email">Email <small>required</small>
+                <input id="email" type="text" name="data[user][email]" value="<?php echo $CI->input->get("email") ? $CI->input->get("email") : ""; ?>" required>
             </label>
             <small class="error">Email is required.</small>
         </div>
 
         <div class="password-field">
-            <label>Password <small>required</small>
-                <input type="password" name="data[user][password]" required />
+            <label for="password">Password <small>required</small>
+                <input id="password" type="password" name="data[user][password]" required pattern="[0-9]{4}" />
             </label>
             <small class="error">Password must be numeric and contain 4 digits.</small>
         </div>

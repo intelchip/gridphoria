@@ -6,8 +6,22 @@ if (!defined('BASEPATH')) {
 
 class Datamodel extends CI_Model {
 
+    /**
+     * Session uid
+     * @var int $session_uid 
+     */
+    public static $session_uid = null;
+
+    /**
+     * Logged in?
+     * @var boolean $session_logged_in 
+     */
+    public static $session_logged_in = null;
+
     public function __construct() {
         parent::__construct();
+        $this->session_uid = $this->usermodel->session_uid;
+        $this->session_logged_in = $this->usermodel->session_logged_in;
     }
 
     /**
@@ -29,8 +43,8 @@ class Datamodel extends CI_Model {
         $query = $this->db->query($sql);
         return $query->result();
     }
-    
-    public function getSemester($semester_id){
+
+    public function getSemester($semester_id) {
         $sql = "select * from semesters where id = '$semester_id'";
         $query = $this->db->query($sql);
         $row = $query->row();
@@ -54,11 +68,23 @@ class Datamodel extends CI_Model {
         $query = $this->db->query($sql);
         return $query->result();
     }
-    
-    public function getCourse($id){        
+
+    public function getCourse($id) {
         $sql = "select * from courses where id='$id'";
         $query = $this->db->query($sql);
         return $query->row();
+    }
+    
+    public function getCourseSchedule($course_id) {
+        $sql = "select * from course_schedule where course_id = '$course_id'";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
+    public function deleteCourse($id) {
+
+        $sql = "delete from courses where id='$id' && instructor_id = '{$this->session_uid}'";
+        $this->db->query($sql);
     }
 
 }

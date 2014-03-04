@@ -48,12 +48,16 @@ class Post extends CI_Controller {
         $course->description = $this->data["course"]["description"];
         $course->semester = $this->data["course"]["semester"];
         $course->instructor_id = $this->data["course"]["instructor"];
-        $course->start_time = $this->data["course"]["start_time"];
-        $course->end_time = $this->data["course"]["end_time"];
+        $course->schedule = $this->data["course"]["schedule"];
         $course->slot = $this->data["course"]["slot"];
-        $course->save();
-
-        redirect($_SERVER['HTTP_REFERER'] . "?success=true");
+        
+        if ($course->is_valid()) {
+            $course->save();
+            redirect($_SERVER['HTTP_REFERER'] . "?success=true");
+        }else
+        {            
+            redirect($_SERVER['HTTP_REFERER'] . "?success=error");
+        }
     }
 
 }

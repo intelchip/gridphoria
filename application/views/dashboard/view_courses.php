@@ -5,7 +5,7 @@ $CI = & get_instance();
     <h4>View Courses</h4>
 </div>
 
-<table>
+<table class="courses-table">
     <thead>
         <tr>
             <th>CRN</th>
@@ -13,8 +13,7 @@ $CI = & get_instance();
             <th>Description</th>
             <th>Instructor</th>
             <th>Semester</th>
-            <th>Start Time</th>
-            <th>End Time</th>
+            <th>Times Offered</th>
             <th>Slot</th>
             <th>Modified on</th>
             <th>Modified by</th>
@@ -23,20 +22,29 @@ $CI = & get_instance();
     </thead>
     <tbody>
         <?php
-        foreach($CI->datamodel->getCourses() as $row){
+        foreach ($CI->datamodel->getCourses() as $row) {
             $instructor = $CI->usermodel;
             $instructor->id = $row->instructor_id;
             $instructor->get_user();
+            $schedule = function ($course_id) {
+                $CI = & get_instance();
+                $schedule_results = $CI->datamodel->getCourseSchedule($course_id);
+                $results = "";
+                foreach ($schedule_results as $sch) {
+                    $results .= "<div>{$sch->day}:<br /><small>{$sch->start_time} - {$sch->end_time}</small></div><div class='clearfix'></div>";
+                }
+                return $results;
+            };
+
             echo "<tr>
                     <td>{$row->crn}</td>
                     <td>{$row->name}</td>
                     <td>{$row->description}</td>
                     <td>{$instructor->first_name} {$instructor->last_name}</td>
                     <td>{$CI->datamodel->getSemester($row->semester)}</td>
-                    <td>{$row->start_time}</td>
-                    <td>{$row->end_time}</td>
+                    <td>" . $schedule($row->id) . "</td>
                     <td>{$row->slot}</td>
-                    <td>{$row->modified}</td>
+                    <td>" . timespan($row->modified, time()) . " ago</td>
                     <td>{$row->modified_by}</td>
                     <td>
                         <a href='/index.php?/dashboard/edit_course/{$row->id}'>edit</a><br />

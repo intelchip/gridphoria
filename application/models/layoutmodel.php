@@ -31,6 +31,7 @@ class Layoutmodel extends CI_Model {
         $this->js = array(
             array("vendor/modernizr.js"),
             array("foundation.min.js"),
+            array("foundation/foundation.abide.js"),
             array("jquery.timepicker.js"),
             array("bootstrap-datepicker.js"),
             array("common.js")

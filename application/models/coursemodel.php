@@ -18,8 +18,7 @@ class CourseModel implements CourseInterface {
     private $description;
     private $instructor_id;
     private $semester;
-    private $start_time;
-    private $end_time;
+    private $schedule;
     private $slot;
     private $modified;
     private $modified_by;
@@ -96,13 +95,23 @@ class CourseModel implements CourseInterface {
 
         return $this->$property;
     }
+    
+    /**
+     * Method that will check whether our course is valid
+     * Mainly will be used when checking whether a course is valid for saving to the db
+     * @return boolean true | false
+     */
+    public function is_valid() {
+        $is_valid = isset($this->crn) && isset($this->description) && isset($this->instructor_id) && isset($this->semester) && isset($this->slot) && count($this->schedule);
+        return $is_valid;
+    }
 
     /**
      * Method to save user into current database context
      * @return void 
      */
     public function save() {
-        
+
         $this->modified = time();
         $this->modified_by = "SYS";
 
@@ -113,8 +122,6 @@ class CourseModel implements CourseInterface {
                         description,
                         instructor_id,
                         semester,
-                        start_time,
-                        end_time,
                         slot,
                         modified,
                         modified_by)
@@ -123,13 +130,36 @@ class CourseModel implements CourseInterface {
                         '{$this->description}', 
                         '{$this->instructor_id}', 
                         '{$this->semester}',
-                        '{$this->start_time}',
-                        '{$this->end_time}',
                         '{$this->slot}',
                         '{$this->modified}', 
                         '{$this->modified_by}')";
 
         $this->CI->db->query($sql);
+
+        // insert course schedule
+        $this->id = $this->CI->db->insert_id();
+        
+        foreach ($this->schedule as $schedule) {
+            $start_time = $schedule["start_time"];
+            $end_time = $schedule["end_time"];
+            $day = $schedule["day"];
+
+            $schedule_sql = "insert 
+              into 
+                course_schedule ( course_id, 
+                        start_time,
+                        end_time,
+                        day,
+                        modified,
+                        modified_by)
+              values('{$this->id}', 
+                        '$start_time', 
+                        '$end_time', 
+                        '$day', 
+                        '{$this->modified}', 
+                        '{$this->modified_by}'); ";
+            $this->CI->db->query($schedule_sql);
+        }
     }
 
     /**
@@ -137,7 +167,7 @@ class CourseModel implements CourseInterface {
      * @return void 
      */
     public function update() {
-        
+
         $this->modified = time();
         $this->modified_by = "SYS";
 
@@ -149,8 +179,6 @@ class CourseModel implements CourseInterface {
                     description = '{$this->description}', 
                     instructor_id = '{$this->instructor_id}', 
                     semester = '{$this->semester}',
-                    start_time = '{$this->start_time}',
-                    end_time = '{$this->end_time}',
                     slot = '{$this->slot}',
                     modified = '{$this->modified}', 
                     modified_by = '{$this->modified_by}'
