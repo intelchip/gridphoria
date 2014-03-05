@@ -23,16 +23,16 @@ if ($message == "fail") {
 
         <div class="email-field">
             <label for="email">Email <small>required</small>
-                <input id="email" type="text" name="data[user][email]" value="<?php echo $CI->input->get("email") ? $CI->input->get("email") : ""; ?>" required>
+                <input id="email" type="text" name="data[user][email]" value="<?php echo $CI->input->get("email") ? $CI->input->get("email") : ""; ?>" required />
+                <small class="error">Email is required.</small>
             </label>
-            <small class="error">Email is required.</small>
         </div>
 
         <div class="password-field">
             <label for="password">Password <small>required</small>
                 <input id="password" type="password" name="data[user][password]" required pattern="[0-9]{4}" />
+                <small class="error">Password must be numeric and contain 4 digits.</small>
             </label>
-            <small class="error">Password must be numeric and contain 4 digits.</small>
         </div>
 
         <input type="submit" class="button radius" value="Login" />

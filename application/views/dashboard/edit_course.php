@@ -12,22 +12,22 @@ $course = $CI->datamodel->getCourse($id);
         <div class="crn-field">
             <label>CRN <small>required</small>
                 <input type="text" name="data[course][crn]" required value="<?php echo $course->crn; ?>" />
+                <small class="error">CRN is required.</small>
             </label>
-            <small class="error">CRN is required.</small>
         </div>
 
         <div class="name-field">
             <label>Course Name <small>required</small>
                 <input type="text" name="data[course][name]" required value="<?php echo $course->name; ?>"/>
+                <small class="error">Course name is required.</small>
             </label>
-            <small class="error">Course name is required.</small>
         </div>
 
         <div class="description-field">
             <label>Description <small>required</small>
                 <textarea name="data[course][description]" required><?php echo $course->description; ?></textarea>
+                <small class="error">Description is required.</small>
             </label>
-            <small class="error">Description is required.</small>
         </div>
 
         <div class="instructor-field">
@@ -58,17 +58,20 @@ $course = $CI->datamodel->getCourse($id);
             foreach ($schedule_results as $sch) {
                 ?>
                 <div class="course-schedule">
-                    <select class="columns large-4 left" name="data[course][schedule][<?php echo $count; ?>][day]" required>
-                        <option> -- Select Day --</option>
-                        <?php
-                        foreach ($days as $day) {
-                            echo "<option value='$day'" . ($day == $sch->day ? "selected='selected'" : "") . ">$day</option>";
-                        }
-                        ?>
-                    </select>
-                    <input class="timepicker left" type="text" name="data[course][schedule][<?php echo $count; ?>][start_time]" placeholder="Start Time" required value="<?php echo $sch->start_time; ?>" />
-                    <input class="timepicker left" type="text" name="data[course][schedule][<?php echo $count; ?>][end_time]" placeholder="End Time" required value="<?php echo $sch->end_time; ?>" />
-                    <a data-schedulefield="<?php echo $count; ?>" class="timeschedule-delete" href="javascript:void(0)">remove</a>
+                    <label>
+                        <select class="columns large-4 left" name="data[course][schedule][<?php echo $count; ?>][day]" required>
+                            <option> -- Select Day --</option>
+                            <?php
+                            foreach ($days as $day) {
+                                echo "<option value='$day'" . ($day == $sch->day ? "selected='selected'" : "") . ">$day</option>";
+                            }
+                            ?>
+                        </select>
+                        <input class="timepicker left" type="text" name="data[course][schedule][<?php echo $count; ?>][start_time]" placeholder="Start Time" required value="<?php echo $sch->start_time; ?>" />
+                        <input class="timepicker left" type="text" name="data[course][schedule][<?php echo $count; ?>][end_time]" placeholder="End Time" required value="<?php echo $sch->end_time; ?>" />
+                        <small class="error">Please add a time schedule.</small>
+                        <a data-schedulefield="<?php echo $count; ?>" class="timeschedule-delete" href="javascript:void(0)">remove</a>
+                    </label>
                 </div>
                 <?php
                 $count++;
@@ -90,8 +93,8 @@ $course = $CI->datamodel->getCourse($id);
                     }
                     ?>
                 </select>
+                <small class="error"> Semester is required.</small>
             </label>
-            <small class="error"> Semester is required.</small>
         </div>
 
         <div class="slot-field">
@@ -104,6 +107,7 @@ $course = $CI->datamodel->getCourse($id);
                     }
                     ?>
                 </select>
+                <small class="error">Please select a slot</small>
             </label>
         </div>
 

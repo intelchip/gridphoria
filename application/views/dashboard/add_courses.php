@@ -26,22 +26,22 @@ if (@$_GET["success"] == "true") {
         <div class="crn-field">
             <label>CRN <small>required</small>
                 <input type="text" name="data[course][crn]" required />
+                <small class="error">CRN is required.</small>
             </label>
-            <small class="error">CRN is required.</small>
         </div>
 
         <div class="name-field">
             <label>Course Name <small>required</small>
                 <input type="text" name="data[course][name]" required />
+                <small class="error">Course name is required.</small>
             </label>
-            <small class="error">Course name is required.</small>
         </div>
 
         <div class="description-field">
             <label>Description <small>required</small>
                 <textarea name="data[course][description]" required></textarea>
+                <small class="error">Description is required.</small>
             </label>
-            <small class="error">Description is required.</small>
         </div>
 
         <div class="instructor-field">
@@ -54,6 +54,7 @@ if (@$_GET["success"] == "true") {
                     }
                     ?>
                 </select>
+                <small class="error">Please select an instructor for this course.</small>
             </label>
         </div>
 
@@ -69,16 +70,19 @@ if (@$_GET["success"] == "true") {
             );
             ?>
             <div class="course-schedule">
-                <select class="columns large-4 left" name="data[course][schedule][0][day]" required>
-                    <option> -- Select Day --</option>
-                    <?php
-                    foreach ($days as $day) {
-                        echo "<option value='$day'>$day</option>";
-                    }
-                    ?>
-                </select>
-                <input class="timepicker left" type="text" name="data[course][schedule][0][start_time]" placeholder="Start Time" required />
-                <input class="timepicker left" type="text" name="data[course][schedule][0][end_time]" placeholder="End Time" required />
+                <label>
+                    <select class="columns large-4 left" name="data[course][schedule][0][day]" required>
+                        <option> -- Select Day --</option>
+                        <?php
+                        foreach ($days as $day) {
+                            echo "<option value='$day'>$day</option>";
+                        }
+                        ?>
+                    </select>
+                    <input class="timepicker left" type="text" name="data[course][schedule][0][start_time]" placeholder="Start Time" required />
+                    <input class="timepicker left" type="text" name="data[course][schedule][0][end_time]" placeholder="End Time" required />
+                    <small class="error">Please add a time schedule.</small>
+                </label>
             </div>
             <a id="addNewTimescheduleField" class="right" href="javascript:void(0)">Add time slot</a>
             <p></p>
@@ -88,16 +92,15 @@ if (@$_GET["success"] == "true") {
         <div class="semseter-field">
             <label>Semester <small>required</small>
                 <select name="data[course][semester]" required>
-                    <option> -- Select a Semester --</option>
-
+                    <option>-- Select a Semester --</option>
                     <?php
                     foreach ($CI->datamodel->getSemesters() as $row) {
                         echo "<option value = '{$row->id}'>{$row->semester}</option>";
                     }
                     ?>
                 </select>
+                <small class="error"> Semester is required.</small>
             </label>
-            <small class="error"> Semester is required.</small>
         </div>
 
         <div class="slot-field">
@@ -110,6 +113,7 @@ if (@$_GET["success"] == "true") {
                     }
                     ?>
                 </select>
+                <small class="error">Please select a slot.</small>
             </label>
         </div>
 

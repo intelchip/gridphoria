@@ -35,11 +35,13 @@ $(document).ready(function() {
         var startTimeField = $("<input class='timepicker left' type='text' name='data[course][schedule][" + newSlot + "][start_time]' placeholder='Start Time' required />");
         var endTimeField = $("<input class='timepicker left' type='text' name='data[course][schedule][" + newSlot + "][end_time]' placeholder='End Time' required />");
         var deleteLink = $("<a data-schedulefield='" + newSlot + "' href='javascript:void(0)'>remove</a>");
+        var errorAlert = $("<small class='error'>Please add a time schedule.</small>");
 
         // have delete link
         deleteLink.click(function() {
             var slot = $(this).data("schedulefield");
-            $("select[name='data[course][schedule][" + slot + "][day]']").parent().remove();
+            $(this).remove();
+            $("select[name='data[course][schedule][" + slot + "][day]']").parents(".course-schedule").remove();
 
             // turn on foundation on the page
             $(document).off().foundation();
@@ -54,7 +56,8 @@ $(document).ready(function() {
         endTimeField.timepicker();
 
         // populate courseDiv
-        courseScheduleDiv.append(daysSelectField).append(startTimeField).append(endTimeField).append(deleteLink);
+        courseScheduleDiv.append("<label />").append(deleteLink);
+        courseScheduleDiv.find("label").append(daysSelectField).append(startTimeField).append(endTimeField).append(errorAlert);
 
         // append new course schedule div
         courseScheduleDiv.insertAfter(".course-schedule:last");
