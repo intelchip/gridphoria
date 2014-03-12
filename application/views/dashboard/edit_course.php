@@ -33,7 +33,7 @@ $course = $CI->datamodel->getCourse($id);
         <div class="instructor-field">
             <label>Instructor <small>required</small>
                 <select name="data[course][instructor]" required>
-                    <option>-- Select an instructor</option>
+                    <option value="">-- Select an instructor</option>
                     <?php
                     foreach ($CI->datamodel->getInstructors() as $row) {
                         echo "<option value='{$row->id}' " . ($CI->session_uid == $course->instructor_id ? "selected" : "") . ">{$row->first_name} {$row->last_name}</option>";
@@ -60,7 +60,7 @@ $course = $CI->datamodel->getCourse($id);
                 <div class="course-schedule">
                     <label>
                         <select class="columns large-4 left" name="data[course][schedule][<?php echo $count; ?>][day]" required>
-                            <option> -- Select Day --</option>
+                            <option value=""> -- Select Day --</option>
                             <?php
                             foreach ($days as $day) {
                                 echo "<option value='$day'" . ($day == $sch->day ? "selected='selected'" : "") . ">$day</option>";
@@ -85,7 +85,7 @@ $course = $CI->datamodel->getCourse($id);
         <div class="semseter-field">
             <label>Semester <small>required</small>
                 <select name="data[course][semester]" required>
-                    <option> -- Select a Semester --</option>
+                    <option value=""> -- Select a Semester --</option>
 
                     <?php
                     foreach ($CI->datamodel->getSemesters() as $row) {
@@ -100,7 +100,7 @@ $course = $CI->datamodel->getCourse($id);
         <div class="slot-field">
             <label>Slot <small>required</small>
                 <select name="data[course][slot]" required="">
-                    <option>-- Select a slot --</option>
+                    <option value="">-- Select a slot --</option>
                     <?php
                     foreach ($CI->datamodel->getSlots() as $row) {
                         echo "<option value = '{$row->id}'' " . ($row->id == $course->slot ? "selected='true'" : "") . ">{$row->slot_number}</option>";

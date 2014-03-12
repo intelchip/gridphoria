@@ -44,7 +44,7 @@ $CI = & get_instance();
                     <td>{$CI->datamodel->getSemester($row->semester)}</td>
                     <td>" . $schedule($row->id) . "</td>
                     <td>{$row->slot}</td>
-                    <td>" . timespan($row->modified, time()) . " ago</td>
+                    <td><small>" . timespan($row->modified, time()) . " ago</small></td>
                     <td>{$row->modified_by}</td>
                     <td>
                         <a href='/index.php?/dashboard/edit_course/{$row->id}'>edit</a><br />

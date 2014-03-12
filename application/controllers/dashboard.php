@@ -16,6 +16,12 @@ class Dashboard extends CI_Controller {
      * @var boolean $session_logged_in 
      */
     public static $session_logged_in = null;
+    
+    /**
+     * Post data
+     * @var array $data
+     */
+    public static $data = null;
 
     /**
      * Default Constructor 
@@ -26,6 +32,11 @@ class Dashboard extends CI_Controller {
         $this->data = $this->input->post("data");
         $this->session_uid = $this->usermodel->session_uid;
         $this->session_logged_in = $this->usermodel->session_logged_in;
+        
+        if (!$this->session_logged_in) {
+            redirect(base_url());
+        }
+
 
 //        $this->output->enable_profiler(TRUE);
     }

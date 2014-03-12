@@ -5,14 +5,35 @@ if (!defined('BASEPATH'))
 
 class Pages extends CI_Controller {
 
+
+    /**
+     * Session uid
+     * @var int $session_uid 
+     */
+    public static $session_uid = null;
+
+    /**
+     * Logged in?
+     * @var boolean $session_logged_in 
+     */
+    public static $session_logged_in = null;
+    
+
+    /**
+     * Default Constructor 
+     */
     public function __construct() {
         parent::__construct();
-
         $this->session_uid = $this->usermodel->session_uid;
         $this->session_logged_in = $this->usermodel->session_logged_in;
+//        
+//        if (!$this->session_logged_in) {
+//            redirect(base_url());
+//        }
+
 //        $this->output->enable_profiler(TRUE);
     }
-
+    
     public function index() {
         redirect(base_url());
     }

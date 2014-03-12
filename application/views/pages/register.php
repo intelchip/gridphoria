@@ -30,7 +30,7 @@
             <div class="role-field">
                 <label>Role <small>required</small>
                     <select name="data[user][role]" required>
-                        <option> -- Select a role --</option>
+                        <option value=""> -- Select a role --</option>
 
                         <?php
                         $CI = & get_instance();
@@ -47,7 +47,7 @@
             <div class="password-field">
                 <label>Password <small>required. *must be 4 digits long</small>
                     <input id="password" type="password" name="data[user][password]" required pattern="[0-9]{4}"/>
-                    <small class="error">Your password must match the requirements</small>
+                    <small class="error">Password must be 4 digits long</small>
                 </label>
             </div>
             <div class="password-confirmation-field">

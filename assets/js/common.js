@@ -31,7 +31,7 @@ $(document).ready(function() {
         // Append new slot to the times offered section
         var daysOfTheWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
         var courseScheduleDiv = $("<div class='course-schedule' />");
-        var daysSelectField = $("<select class='columns large-4 left' name='data[course][schedule][" + newSlot + "][day]' required><option>-- Select Day --</option></select>");
+        var daysSelectField = $("<select class='columns large-4 left' name='data[course][schedule][" + newSlot + "][day]' required><option value=\"\">-- Select Day --</option></select>");
         var startTimeField = $("<input class='timepicker left' type='text' name='data[course][schedule][" + newSlot + "][start_time]' placeholder='Start Time' required />");
         var endTimeField = $("<input class='timepicker left' type='text' name='data[course][schedule][" + newSlot + "][end_time]' placeholder='End Time' required />");
         var deleteLink = $("<a data-schedulefield='" + newSlot + "' href='javascript:void(0)'>remove</a>");
