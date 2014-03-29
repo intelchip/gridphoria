@@ -47,6 +47,21 @@ class Dashboard extends CI_Controller {
         $this->load->view("dashboard/index");
         $this->load->view("layout/footer", $data);
     }
+    
+    /**
+     * Account settings page
+     */
+    public function account_settings() {
+        $data = $this->layoutmodel->main("Gridphoria | Account Settings");
+        
+        // get current user info
+        $current_user = $this->usermodel;
+        $data["current_user"] = $current_user->get_current_user();
+        
+        $this->load->view("layout/header", $data);
+        $this->load->view("dashboard/account_settings", $data);
+        $this->load->view("layout/footer", $data);
+    }
 
     /**
      * Page that will enable user to add courses
@@ -62,12 +77,16 @@ class Dashboard extends CI_Controller {
      * Page that will list courses
      */
     public function view_courses() {
-        $data = $this->layoutmodel->main("Gridphoria | View Courses");
+        $data = $this->layoutmodel->main("Gridphoria | View Courses");        
         $this->load->view("layout/header", $data);
         $this->load->view("dashboard/view_courses");
         $this->load->view("layout/footer", $data);
     }
     
+    /**
+     * Edit course page
+     * @param int $id
+     */
     public function edit_course($id){
         
         $data = $this->layoutmodel->main("Gridphoria | Edit Course");
@@ -76,21 +95,22 @@ class Dashboard extends CI_Controller {
         $this->load->view("layout/footer", $data);
     }
     
+    /**
+     * Deletes a course
+     * @param int $id
+     */
     public function delete_course($id){
         $this->datamodel->deleteCourse($id);        
-        redirect(base_url()."index.php?/dashboard/view_courses");
+        redirect("/dashboard/view_courses");
     }
 
     /**
      * Logs out the user by destroying the current session
      */
     public function logout() {
-
         $this->session->unset_userdata();
         $this->session->sess_destroy();
-        session_destroy();
-
-        redirect(base_url());
+        redirect("/");
     }
 
 }

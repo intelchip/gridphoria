@@ -1,28 +1,48 @@
+<?php
+$CI = & get_instance();
+?>
 <div class="row">
-    <form method="post" action="<?php echo base_url(); ?>/index.php?/authenticate/register_user" data-abide>
+    <form method="post" action="<?php echo base_url(); ?>/index.php?/authenticate/update_user" data-abide>
 
         <div class="panel">
-            <h4>Register</h4>
+            <h4>Account Settings</h4>
         </div>
+
+        <?php
+        if (@$_GET["success"] == "true") {
+            ?>
+            <div data-alert class="alert-box success radius">
+                You have successfully updated user info.
+                <a href="#" class="close">&times;</a>
+
+            </div>
+        <?php } else if (@$_GET["success"] == "error") {
+            ?>
+            <div data-alert class="alert-box warning radius">
+                There was a problem updating user info in the database.
+                <a href="#" class="close">&times;</a>
+
+            </div>
+        <?php } ?>
         <div class="clearfix"></div>
         <div class="large-6 column">
             <div class="email-field">
                 <label>Email <small>required</small>
-                    <input type="text" name="data[user][email]" required />
+                    <input type="text" name="data[user][email]" required value="<?php echo $current_user->email; ?>" />
                     <small class="error">email is required.</small>
                 </label>
             </div>
 
             <div class="name-field">
                 <label>First Name <small>required</small>
-                    <input type="text" name="data[user][first_name]" required />
+                    <input type="text" name="data[user][first_name]" required value="<?php echo $current_user->first_name; ?>" />
                     <small class="error">First name is required.</small>
                 </label>
             </div>
 
             <div class="name-field">
                 <label>Last Name <small>required</small>
-                    <input type="text" name="data[user][last_name]" required />
+                    <input type="text" name="data[user][last_name]" required value="<?php echo $current_user->last_name; ?>" />
                     <small class="error">Name is required.</small>
                 </label>
             </div>
@@ -36,7 +56,7 @@
                         $CI = & get_instance();
 
                         foreach ($CI->datamodel->getRoles() as $row) {
-                            echo "<option value = '{$row->id}'>{$row->role}</option>";
+                            echo "<option" . ($row->id == $current_user->role_id ? " selected='selected'" : "") . " value = '{$row->id}'>{$row->role}</option>";
                         }
                         ?>
                     </select>
@@ -57,7 +77,7 @@
                 </label>
             </div>
 
-            <input type="submit" class="button radius" value="Register" />
+            <input type="submit" class="button radius" value="Save" />
         </div>
     </form>
 </div>

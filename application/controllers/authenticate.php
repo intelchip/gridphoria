@@ -22,9 +22,9 @@ class Authenticate extends CI_Controller {
         $this->data = $this->input->post("data");
 
         // redirect users if there is no session		
-        if ($this->session_uid) {
-            redirect(base_url());
-        }
+//        if ($this->session_uid) {
+//            redirect(base_url());
+//        }
     }
 
     /**
@@ -61,8 +61,6 @@ class Authenticate extends CI_Controller {
      * Registers a new user
      */
     public function register_user() {
-
-
         if ($this->data) {
 
             $email = $this->data['user']['email'];
@@ -108,6 +106,50 @@ class Authenticate extends CI_Controller {
 
                 // redirect back to main page to get to the dashboard
                 redirect(base_url() . "index.php?/dashboard");
+            } else {
+                echo "<h2>Sorry something went wrong! :(</h2>";
+            }
+        }
+    }
+
+    /**
+     * Updates current user in db
+     */
+    public function update_user() {
+
+        if ($this->data) {
+
+            $email = $this->data['user']['email'];
+            $first_name = $this->data['user']['first_name'];
+            $last_name = $this->data['user']['last_name'];
+            $password = sha1($this->data['user']['password']);
+            $cpassword = sha1($this->data['user']['cpassword']);
+            $role = $this->data['user']['role'];
+            $modified = time();
+            $modified_by = "SYS";
+
+            $user = $this->usermodel->get_current_user();
+            $user->email = $email;
+            $user->first_name = $first_name;
+            $user->last_name = $last_name;
+            $user->password = $password;
+            $user->role_id = $role;
+            $user->modified = $modified;
+            $user->modified_by = $modified_by;
+
+            if ($user->check_user() &&
+                    !empty($email) &&
+                    !empty($first_name) &&
+                    !empty($last_name) &&
+                    is_numeric($role) &&
+                    !empty($password) &&
+                    !empty($cpassword) &&
+                    $password == $cpassword) {
+
+                $user->update();
+
+                // redirect back to main page to get to the dashboard
+                redirect("/dashboard/account_settings?success=true");
             } else {
                 echo "<h2>Sorry something went wrong! :(</h2>";
             }

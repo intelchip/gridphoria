@@ -16,7 +16,7 @@
 
             <div class="row">
                 <div class="large-3 columns logo">
-                    <img src="<?php echo base_url(); ?>/assets/img/logo.png" onclick="window.location='<?php echo base_url(); ?>'" />
+                    <img src="<?php echo base_url(); ?>/assets/img/logo.png" onclick="window.location = '<?php echo base_url(); ?>'" />
                 </div>
                 <div class="large-9 columns">
                     <ul class="right nav-bar button-group">
@@ -34,10 +34,17 @@
                             <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/">Dashboard</a></li>
                             <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/add_courses">Add Courses</a></li>
                             <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/view_courses">View Courses</a></li>
-                            <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/logout">Logout</a></li>
+                            <li>
+                                <?php /*  <a href="<?php echo base_url(); ?>/index.php?/dashboard/logout">Logout</a> */ ?>
+                                <a href="#" data-dropdown="navDrop">Account &raquo;</a>
+                            </li>
                             <?php
                         }
                         ?>
+                    </ul>
+                    <ul id="navDrop" class="tiny f-dropdown" data-options="is_hover:true" data-dropdown-content>
+                        <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/account_settings">Settings</a></li>
+                        <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/logout">Logout</a></li>
                     </ul>
                 </div>
             </div>
