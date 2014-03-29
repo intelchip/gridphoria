@@ -16,7 +16,7 @@
 
             <div class="row">
                 <div class="large-3 columns logo">
-                    <img src="/assets/img/logo.png" onclick="window.location='<?php echo base_url(); ?>'" />
+                    <img src="<?php echo base_url(); ?>/assets/img/logo.png" onclick="window.location='<?php echo base_url(); ?>'" />
                 </div>
                 <div class="large-9 columns">
                     <ul class="right nav-bar button-group">
@@ -26,15 +26,15 @@
                         $current_user = $CI->session->userdata("uid");
                         if (!$current_user) {
                             ?>
-                            <li><a href="/index.php?/pages/register">Register</a></li>
-                            <li><a href="/index.php?/pages/login">Login</a></li>
+                            <li><a href="<?php echo base_url(); ?>/index.php?/pages/register">Register</a></li>
+                            <li><a href="<?php echo base_url(); ?>/index.php?/pages/login">Login</a></li>
                             <?php
                         } else {
                             ?>
-                            <li><a href="/index.php?/dashboard/">Dashboard</a></li>
-                            <li><a href="/index.php?/dashboard/add_courses">Add Courses</a></li>
-                            <li><a href="/index.php?/dashboard/view_courses">View Courses</a></li>
-                            <li><a href="/index.php?/dashboard/logout">Logout</a></li>
+                            <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/">Dashboard</a></li>
+                            <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/add_courses">Add Courses</a></li>
+                            <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/view_courses">View Courses</a></li>
+                            <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/logout">Logout</a></li>
                             <?php
                         }
                         ?>

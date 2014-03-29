@@ -47,12 +47,14 @@ class Authenticate extends CI_Controller {
 
             $this->session->set_userdata($newdata);
 
-            if ($option == "redirectback")
+            if ($option == "redirectback") {
                 redirect($_SERVER['HTTP_REFERER']);
-            else
+            } else {
                 redirect("/dashboard");
-        } else
+            }
+        } else {
             redirect("/pages/login/fail?email=" . $this->usermodel->email);
+        }
     }
 
     /**
@@ -90,7 +92,7 @@ class Authenticate extends CI_Controller {
                     !empty($cpassword) &&
                     $password == $cpassword) {
 
-                print_r($this->data);
+//                print_r($this->data);
 
                 $user->save();
 

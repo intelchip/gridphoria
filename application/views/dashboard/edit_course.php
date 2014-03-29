@@ -6,7 +6,7 @@ $course = $CI->datamodel->getCourse($id);
 <div class="panel">
     <h4>Edit Course</h4>
 </div>
-<form method="post" action="/index.php?/post/edit_courses" data-abide>
+<form method="post" action="<?php echo base_url(); ?>/index.php?/post/edit_courses" data-abide>
     <div class="clearfix"></div>
     <div class="large-6 column">
         <div class="crn-field">

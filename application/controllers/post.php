@@ -38,7 +38,7 @@ class Post extends CI_Controller {
      * Method to handle direct access to the post controller 
      */
     public function index() {
-        redirect('/');
+         redirect(base_url().'/');
     }
 
     public function add_courses() {

@@ -47,8 +47,8 @@ $CI = & get_instance();
                     <td><small>" . timespan($row->modified, time()) . " ago</small></td>
                     <td>{$row->modified_by}</td>
                     <td>
-                        <a href='/index.php?/dashboard/edit_course/{$row->id}'>edit</a><br />
-                        <a href='/index.php?/dashboard/delete_course/{$row->id}'>delete</a>   
+                        <a href='".base_url()."/index.php?/dashboard/edit_course/{$row->id}'>edit</a><br />
+                        <a href='".base_url()."/index.php?/dashboard/delete_course/{$row->id}'>delete</a>   
                     </td>
                  <tr>";
         }
