@@ -5,7 +5,7 @@ $CI = & get_instance();
     <h4>View Courses</h4>
 </div>
 
-<table class="courses-table">
+<table class="courses-table full-table-width">
     <thead>
         <tr>
             <th>CRN</th>

@@ -52,13 +52,6 @@ class CourseModel implements CourseInterface {
         $this->session_uid = $this->CI->session->userdata('uid');
         $this->session_logged_in = $this->CI->session->userdata('logged_in');
         $this->session_data = $this->CI->session->all_userdata();
-
-        if ($this->id) {
-            $this->get_user();
-        }
-
-
-        setlocale(LC_MONETARY, 'en_US');
     }
 
     /**
@@ -95,7 +88,7 @@ class CourseModel implements CourseInterface {
 
         return $this->$property;
     }
-    
+
     /**
      * Method that will check whether our course is valid
      * Mainly will be used when checking whether a course is valid for saving to the db
@@ -138,7 +131,7 @@ class CourseModel implements CourseInterface {
 
         // insert course schedule
         $this->id = $this->CI->db->insert_id();
-        
+
         foreach ($this->schedule as $schedule) {
             $start_time = $schedule["start_time"];
             $end_time = $schedule["end_time"];
@@ -160,6 +153,19 @@ class CourseModel implements CourseInterface {
                         '{$this->modified_by}'); ";
             $this->CI->db->query($schedule_sql);
         }
+
+        // insert into slot allocation table
+        $slot_sql = "insert 
+                     into
+                        slot_allocation (course_id, 
+                        slot_id, 
+                        modified,
+                        modified_by)
+                     values('{$this->id}', 
+                        '{$this->slot}', 
+                        '{$this->modified}', 
+                        '{$this->modified_by}');";
+        $this->CI->db->query($slot_sql);
     }
 
     /**
@@ -193,8 +199,14 @@ class CourseModel implements CourseInterface {
      * @return void 
      */
     public function delete() {
-        $sql = "delete from courses where id = '{$this->id}'";
-        $this->CI->db->query($sql);
+        $course_sql = "delete from courses where id='{$this->id}' && instructor_id = '{$this->session_uid}'";
+        $this->CI->db->query($course_sql);
+        
+        $course_schedule_sql = "delete from course_schedule where course_id='{$this->id}'";
+        $this->CI->db->query($course_schedule_sql);
+        
+        $slot_allocation_sql = "delete from slot_allocation where course_id = '{$this->id}'";
+        $this->CI->db->query($slot_allocation_sql);
     }
 
 }

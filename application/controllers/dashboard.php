@@ -16,7 +16,7 @@ class Dashboard extends CI_Controller {
      * @var boolean $session_logged_in 
      */
     public static $session_logged_in = null;
-    
+
     /**
      * Post data
      * @var array $data
@@ -32,9 +32,9 @@ class Dashboard extends CI_Controller {
         $this->data = $this->input->post("data");
         $this->session_uid = $this->usermodel->session_uid;
         $this->session_logged_in = $this->usermodel->session_logged_in;
-        
+
         if (!$this->session_logged_in) {
-            redirect(base_url());
+            redirect("/");
         }
 
 
@@ -47,21 +47,25 @@ class Dashboard extends CI_Controller {
         $this->load->view("dashboard/index");
         $this->load->view("layout/footer", $data);
     }
-    
+
     /**
      * Account settings page
      */
     public function account_settings() {
         $data = $this->layoutmodel->main("Gridphoria | Account Settings");
-        
+
         // get current user info
         $current_user = $this->usermodel;
         $data["current_user"] = $current_user->get_current_user();
-        
+
         $this->load->view("layout/header", $data);
         $this->load->view("dashboard/account_settings", $data);
         $this->load->view("layout/footer", $data);
     }
+
+    /* ==========================================================================
+     * Courses Section 
+     * ========================================================================= */
 
     /**
      * Page that will enable user to add courses
@@ -77,30 +81,67 @@ class Dashboard extends CI_Controller {
      * Page that will list courses
      */
     public function view_courses() {
-        $data = $this->layoutmodel->main("Gridphoria | View Courses");        
+        $data = $this->layoutmodel->main("Gridphoria | View Courses");
         $this->load->view("layout/header", $data);
         $this->load->view("dashboard/view_courses");
         $this->load->view("layout/footer", $data);
     }
-    
+
     /**
      * Edit course page
      * @param int $id
      */
-    public function edit_course($id){
-        
+    public function edit_course($id) {
+
         $data = $this->layoutmodel->main("Gridphoria | Edit Course");
         $this->load->view("layout/header", $data);
         $this->load->view("dashboard/edit_course");
         $this->load->view("layout/footer", $data);
     }
-    
+
     /**
      * Deletes a course
      * @param int $id
      */
-    public function delete_course($id){
-        $this->datamodel->deleteCourse($id);        
+    public function delete_course($id) {
+        $this->datamodel->deleteCourse($id);
+        redirect("/dashboard/view_courses");
+    }
+
+    /* ==========================================================================
+     * Slots Section 
+     * ========================================================================= */
+
+    public function add_slots() {
+
+        $data = $this->layoutmodel->main("Gridphoria | Add Slots");
+        $this->load->view("layout/header", $data);
+        $this->load->view("dashboard/add_slots");
+        $this->load->view("layout/footer", $data);
+    }
+
+    public function edit_slot($id) {
+
+        $data = $this->layoutmodel->main("Gridphoria | Edit Slot");
+        $data["slot"] = $this->datamodel->getSlot($id);
+        $data["available_spots"] = $this->datamodel->getAvailableSlots($id);
+        $this->load->view("layout/header", $data);
+        $this->load->view("dashboard/edit_slot");
+        $this->load->view("layout/footer", $data);
+    }
+    
+    public function view_slots() {
+
+        $data = $this->layoutmodel->main("Gridphoria | Manage Slots");
+        $data["slots"] = $this->datamodel->getSlots();
+                
+        $this->load->view("layout/header", $data);
+        $this->load->view("dashboard/view_slots", $data);
+        $this->load->view("layout/footer", $data);
+    }
+
+    public function delete_slot($id) {        
+        $this->datamodel->deleteSlot($id);
         redirect("/dashboard/view_courses");
     }
 

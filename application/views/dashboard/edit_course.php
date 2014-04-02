@@ -103,7 +103,7 @@ $course = $CI->datamodel->getCourse($id);
                     <option value="">-- Select a slot --</option>
                     <?php
                     foreach ($CI->datamodel->getSlots() as $row) {
-                        echo "<option value = '{$row->id}'' " . ($row->id == $course->slot ? "selected='true'" : "") . ">{$row->slot_number}</option>";
+                        echo "<option value = '{$row->id}'' " . ($row->id == $course->slot ? "selected='true'" : "") . ">{$row->slot}</option>";
                     }
                     ?>
                 </select>

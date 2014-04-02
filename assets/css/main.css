@@ -73,3 +73,12 @@ h1, h2, h3, h4 {
 }
 
 .courses-table tbody tr:nth-child(even) td{ background: #f9f9f9 !important; }
+
+#calendar table{
+    border: 0;
+    margin: 0;
+}
+
+.full-table-width{
+    width: 100%;
+}

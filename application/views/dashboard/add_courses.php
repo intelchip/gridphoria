@@ -25,8 +25,8 @@ if (@$_GET["success"] == "true") {
     <div class="large-6 column">
         <div class="crn-field">
             <label>CRN <small>required</small>
-                <input type="text" name="data[course][crn]" required />
-                <small class="error">CRN is required.</small>
+                <input type="text" name="data[course][crn]" required pattern="[0-9]" />
+                <small class="error">CRN in numeric fomart is required.</small>
             </label>
         </div>
 
@@ -109,7 +109,7 @@ if (@$_GET["success"] == "true") {
                     <option value="">-- Select a slot --</option>
                     <?php
                     foreach ($CI->datamodel->getSlots() as $row) {
-                        echo "<option value = '{$row->id}'>{$row->slot_number}</option>";
+                        echo "<option value = '{$row->id}'>{$row->slot}</option>";
                     }
                     ?>
                 </select>

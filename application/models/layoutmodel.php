@@ -21,12 +21,24 @@ class Layoutmodel extends CI_Model {
     public function main($page) {
 
         $data['page'] = $page;
+        
+        
+//<link href='../fullcalendar/fullcalendar.css' rel='stylesheet' />
+//<link href='../fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+//<script src='../lib/moment.min.js'></script>
+//<script src='../lib/jquery.min.js'></script>
+//<script src='../lib/jquery-ui.custom.min.js'></script>
+//<script src='../fullcalendar/fullcalendar.min.js'></script>
+
 
         $this->css = array(
             array('main.css?version=2.0&amp;time=' . time()),
             array('foundation.css'),
             array("jquery.timepicker.css"),
-            array('bootstrap-datepicker.css')
+            array('bootstrap-datepicker.css'),
+            array('fullcalendar.css'),
+            array('fullcalendar.print.css'),
+            array('foundation-icons.css')
         );
         $this->js = array(
             array("vendor/modernizr.js"),
@@ -34,6 +46,8 @@ class Layoutmodel extends CI_Model {
             array("foundation/foundation.abide.js"),
             array("jquery.timepicker.js"),
             array("bootstrap-datepicker.js"),
+            array("moment.min.js"),
+            array("fullcalendar.min.js"),
             array("common.js")
         );
 

@@ -38,7 +38,7 @@ class Post extends CI_Controller {
      * Method to handle direct access to the post controller 
      */
     public function index() {
-         redirect(base_url().'/');
+        redirect(base_url() . '/');
     }
 
     public function add_courses() {
@@ -50,12 +50,57 @@ class Post extends CI_Controller {
         $course->instructor_id = $this->data["course"]["instructor"];
         $course->schedule = $this->data["course"]["schedule"];
         $course->slot = $this->data["course"]["slot"];
-        
+
         if ($course->is_valid()) {
             $course->save();
             redirect($_SERVER['HTTP_REFERER'] . "?success=true");
-        }else
-        {            
+        } else {
+            redirect($_SERVER['HTTP_REFERER'] . "?success=error");
+        }
+    }
+
+    public function add_slots() {
+        $slot_info = $this->data["slot"];
+        $name = $slot_info["slot_name"];
+        $capacity = $slot_info["capacity"];
+
+        $user = $this->usermodel->get_current_user();
+
+        $slot = $this->slotmodel;
+        $slot->slot = $name;
+        $slot->capacity = $capacity;
+        $slot->modified = time();
+        $slot->modified_by = $user->email;
+
+
+        if ($slot->is_valid()) {
+            $slot->save();
+            redirect("/dashboad/view_slots?success=true");
+        } else {
+            redirect($_SERVER['HTTP_REFERER'] . "?success=error");
+        }
+    }
+
+    public function edit_slot() {
+        $slot_info = $this->data["slot"];
+        $id = $slot_info["slot_id"];
+        $name = $slot_info["slot_name"];
+        $capacity = $slot_info["capacity"];
+
+        $user = $this->usermodel->get_current_user();
+
+        $slot = $this->slotmodel;
+        $slot->id = $id;
+        $slot->slot = $name;
+        $slot->capacity = $capacity;
+        $slot->modified = time();
+        $slot->modified_by = $user->email;
+
+
+        if ($slot->is_valid()) {
+            $slot->update();
+            redirect($_SERVER['HTTP_REFERER'] . "?success=true");
+        } else {
             redirect($_SERVER['HTTP_REFERER'] . "?success=error");
         }
     }

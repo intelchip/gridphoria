@@ -1,6 +1,6 @@
 --
 -- MySQL 5.6.17
--- Sat, 29 Mar 2014 14:18:37 +0000
+-- Tue, 01 Apr 2014 11:16:52 +0000
 --
 
 CREATE TABLE `course_schedule` (
@@ -12,11 +12,10 @@ CREATE TABLE `course_schedule` (
    `modified` int(11) not null,
    `modified_by` varchar(200) not null,
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4;
 
 INSERT INTO `course_schedule` (`id`, `course_id`, `start_time`, `end_time`, `day`, `modified`, `modified_by`) VALUES 
-('1', '1', '12:30am', '12:30am', 'Tuesday', '1396102585', 'SYS'),
-('2', '1', '12:30am', '1:30am', 'Friday', '1396102585', 'SYS');
+('3', '1', '1:00am', '1:30am', 'Tuesday', '1396350945', 'SYS');
 
 CREATE TABLE `courses` (
    `id` int(11) not null auto_increment,
@@ -32,7 +31,7 @@ CREATE TABLE `courses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=2;
 
 INSERT INTO `courses` (`id`, `crn`, `name`, `description`, `instructor_id`, `semester`, `slot`, `modified`, `modified_by`) VALUES 
-('1', '1212212', 'Test', 'teasdasdasdsa', '2', '1', '1', '1396102585', 'SYS');
+('1', '10908', 'Test course', 'testing stuff', '2', '1', '9', '1396350945', 'SYS');
 
 CREATE TABLE `roles` (
    `id` int(11) not null auto_increment,
@@ -60,14 +59,32 @@ INSERT INTO `semesters` (`id`, `semester`, `modified`, `modified_by`) VALUES
 
 CREATE TABLE `slots` (
    `id` int(11) not null auto_increment,
-   `slot_number` int(11) not null,
+   `slot` varchar(11) not null,
    `modified` int(11) not null,
    `modified_by` varchar(200) not null,
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=2;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=20;
 
-INSERT INTO `slots` (`id`, `slot_number`, `modified`, `modified_by`) VALUES 
-('1', '1', '1396068897', 'SYS');
+INSERT INTO `slots` (`id`, `slot`, `modified`, `modified_by`) VALUES 
+('1', '1', '1396068897', 'SYS'),
+('2', '2', '1396328087', 'SYS'),
+('3', '3', '1396328087', 'SYS'),
+('4', '4', '1396328087', 'SYS'),
+('5', '5', '1396328087', 'SYS'),
+('6', '6', '1396328087', 'SYS'),
+('7', '7', '1396328087', 'SYS'),
+('8', '8', '1396328087', 'SYS'),
+('9', '9', '1396328087', 'SYS'),
+('10', '10', '1396328087', 'SYS'),
+('11', '11', '1396328087', 'SYS'),
+('12', '12', '1396328087', 'SYS'),
+('13', '13', '1396328087', 'SYS'),
+('14', '14', '1396328087', 'SYS'),
+('15', '15', '1396328087', 'SYS'),
+('16', '16', '1396328087', 'SYS'),
+('17', 'Mon Nite', '1396328087', 'SYS'),
+('18', 'Tue Nite', '1396328087', 'SYS'),
+('19', 'Wed Nite', '1396328087', 'SYS');
 
 CREATE TABLE `users` (
    `id` int(11) not null auto_increment,
@@ -82,4 +99,4 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3;
 
 INSERT INTO `users` (`id`, `email`, `first_name`, `last_name`, `password`, `role_id`, `modified`, `modified_by`) VALUES 
-('2', 'arama.james@gmail.com', 'James', 'Arama', 'c747a57bf4405fbce591c994e928b00521f260e3', '1', '1396100783', 'SYS');
+('2', 'arama.james@gmail.com', 'James', 'Arama', 'c747a57bf4405fbce591c994e928b00521f260e3', '1', '1396109274', 'SYS');

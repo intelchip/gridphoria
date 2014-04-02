@@ -32,17 +32,24 @@
                         } else {
                             ?>
                             <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/">Dashboard</a></li>
-                            <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/add_courses">Add Courses</a></li>
-                            <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/view_courses">View Courses</a></li>
+                            <li><a href="#" data-dropdown="coursesDropdown">Manage Courses &raquo;</a></li>
+                            <li><a href="#" data-dropdown="slotsDropdown">Manage Slots &raquo;</a></li>
                             <li>
-                                <?php /*  <a href="<?php echo base_url(); ?>/index.php?/dashboard/logout">Logout</a> */ ?>
-                                <a href="#" data-dropdown="navDrop">Account &raquo;</a>
+                                <a href="#" data-dropdown="accountDropdown"><i class="fi-torso small"></i> Account &raquo;</a>
                             </li>
                             <?php
                         }
                         ?>
                     </ul>
-                    <ul id="navDrop" class="tiny f-dropdown" data-options="is_hover:true" data-dropdown-content>
+                    <ul id="coursesDropdown" class="nav-dropdown tiny f-dropdown" data-options="is_hover:true" data-dropdown-content>
+                        <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/add_courses">Add Courses</a></li>
+                        <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/view_courses">View Courses</a></li>
+                    </ul>
+                    <ul id="slotsDropdown" class="nav-dropdown tiny f-dropdown" data-options="is_hover:true" data-dropdown-content>
+                        <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/add_slots">Add Slots</a></li>
+                        <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/view_slots">View Slots</a></li>
+                    </ul>
+                    <ul id="accountDropdown" class="nav-dropdown tiny f-dropdown" data-options="is_hover:true" data-dropdown-content>
                         <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/account_settings">Settings</a></li>
                         <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/logout">Logout</a></li>
                     </ul>

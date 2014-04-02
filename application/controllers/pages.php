@@ -35,7 +35,7 @@ class Pages extends CI_Controller {
     }
     
     public function index() {
-        redirect(base_url());
+        redirect("/");
     }
 
     /**
@@ -45,7 +45,7 @@ class Pages extends CI_Controller {
 
         // redirect back to home if logged in
         if ($this->session_uid) {
-            redirect(base_url());
+            redirect("/");
         }
 
         $data = $this->layoutmodel->main("Gridphoria | Login");
