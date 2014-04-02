@@ -46,9 +46,10 @@ $CI = & get_instance();
                     <td>{$row->slot}</td>
                     <td><small>" . timespan($row->modified, time()) . " ago</small></td>
                     <td>{$row->modified_by}</td>
-                    <td>
+                    <td>" . ($is_current_user_faculty_chair || $instructor->id === $CI->session_uid ? "
                         <a href='" . base_url() . "/index.php?/dashboard/edit_course/{$row->id}'>edit</a><br />
                         <a href='" . base_url() . "/index.php?/dashboard/delete_course/{$row->id}'>delete</a>   
+                            " : "" ) . "
                     </td>
                  <tr>";
         }

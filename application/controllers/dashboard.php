@@ -136,7 +136,7 @@ class Dashboard extends CI_Controller {
         $this->load->view("dashboard/edit_slot");
         $this->load->view("layout/footer", $data);
     }
-    
+
     /**
      * Page that lists out all the slots
      */
@@ -144,7 +144,7 @@ class Dashboard extends CI_Controller {
 
         $data = $this->layoutmodel->main("Gridphoria | Manage Slots");
         $data["slots"] = $this->datamodel->getSlots();
-                
+
         $this->load->view("layout/header", $data);
         $this->load->view("dashboard/view_slots", $data);
         $this->load->view("layout/footer", $data);
@@ -154,7 +154,7 @@ class Dashboard extends CI_Controller {
      * Deletes a slot
      * @param type $id
      */
-    public function delete_slot($id) {        
+    public function delete_slot($id) {
         $this->datamodel->deleteSlot($id);
         redirect("/dashboard/view_courses");
     }

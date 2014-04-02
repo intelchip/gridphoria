@@ -46,7 +46,13 @@
                         <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/view_courses">View Courses</a></li>
                     </ul>
                     <ul id="slotsDropdown" class="nav-dropdown tiny f-dropdown" data-options="is_hover:true" data-dropdown-content>
-                        <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/add_slots">Add Slots</a></li>
+                        <?php
+                        if ($is_current_user_faculty_chair) {
+                            ?>
+                            <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/add_slots">Add Slots</a></li>
+                            <?php
+                        }
+                        ?>
                         <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/view_slots">View Slots</a></li>
                     </ul>
                     <ul id="accountDropdown" class="nav-dropdown tiny f-dropdown" data-options="is_hover:true" data-dropdown-content>

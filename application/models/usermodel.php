@@ -283,11 +283,15 @@ class UserModel implements UserInterface {
      * @return type
      */
     public function is_curent_user_chair() {
-        $sql = "select * from users where id = '{$this->session_uid}'";
-        $query = $this->CI->db->query();
-        $row = $query->row();
+        $this->session_uid = $this->CI->session->userdata('uid');
+        if (isset($this->session_uid)) {
+            $sql = "select * from users where id = '{$this->session_uid}'";
+            $query = $this->CI->db->query($sql);
+            $row = $query->row();
 
-        return $row->role_id === 1;
+            return $row->role_id == 1;
+        }
+        return false;
     }
 
 }

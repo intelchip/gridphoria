@@ -38,9 +38,10 @@ if ($CI->input->get("success") == "true") {
                     <td>{$slot->slot}</td>
                     <td>{$CI->datamodel->getAvailableSlots($slot->id)}</td>
                     <td>{$slot->capacity}</td>
-                    <td>
+                    <td>" . ( $is_current_user_faculty_chair ? "
                         <a href='" . base_url() . "/index.php?/dashboard/edit_slot/{$slot->id}'>edit</a><br />
-                        <a href='" . base_url() . "/index.php?/dashboard/delete_slot/{$slot->id}'>delete</a>   
+                        <a href='" . base_url() . "/index.php?/dashboard/delete_slot/{$slot->id}'>delete</a>  
+                            " : "" ) . " 
                     </td>
              </tr>";
         }

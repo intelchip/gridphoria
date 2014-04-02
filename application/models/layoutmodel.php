@@ -21,8 +21,8 @@ class Layoutmodel extends CI_Model {
     public function main($page) {
 
         $data['page'] = $page;
-        
-        
+
+
 //<link href='../fullcalendar/fullcalendar.css' rel='stylesheet' />
 //<link href='../fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
 //<script src='../lib/moment.min.js'></script>
@@ -57,7 +57,10 @@ class Layoutmodel extends CI_Model {
         $data['css'] = $this->carabiner->display_string('main-styles');
         $data['js'] = $this->carabiner->display_string('main-scripts');
 
+        // Add is_faculty_chair here since the layout model is added throughout all pages
+        $data['is_current_user_faculty_chair'] = $this->usermodel->is_curent_user_chair();
 
         return $data;
     }
+
 }

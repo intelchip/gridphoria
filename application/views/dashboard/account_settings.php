@@ -49,7 +49,7 @@ $CI = & get_instance();
 
             <div class="role-field">
                 <label>Role <small>required</small>
-                    <select name="data[user][role]" required>
+                    <select <?php echo ( $is_current_user_faculty_chair ? 'name="data[user][role]" required' : 'disabled' ); ?>>
                         <option value=""> -- Select a role --</option>
 
                         <?php
@@ -60,6 +60,7 @@ $CI = & get_instance();
                         }
                         ?>
                     </select>
+                    <?php echo (!$is_current_user_faculty_chair ? "<input type='hidden' name='data[user][role]' value='{$row->id}' />" : ""); ?>
                     <small class="error"> Role is required.</small>
                 </label>
             </div>
