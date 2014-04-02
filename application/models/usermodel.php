@@ -221,7 +221,7 @@ class UserModel implements UserInterface {
      * @return void 
      */
     public function save() {
-        
+
         $this->modified = time();
         $this->modified_by = "SYS";
 
@@ -241,7 +241,7 @@ class UserModel implements UserInterface {
                         '{$this->role_id}', 
                         '{$this->modified}', 
                         '{$this->modified_by}')";
-                        
+
         $this->CI->db->query($sql);
     }
 
@@ -274,6 +274,20 @@ class UserModel implements UserInterface {
     public function delete() {
         $sql = "delete from users where id = '{$this->id}'";
         $this->CI->db->query($sql);
+    }
+
+    /**
+     * Our chair will always have an id of one
+     * Going to have to write a cleaner way of deciding whether the user is a
+     * Chair or not.
+     * @return type
+     */
+    public function is_curent_user_chair() {
+        $sql = "select * from users where id = '{$this->session_uid}'";
+        $query = $this->CI->db->query();
+        $row = $query->row();
+
+        return $row->role_id === 1;
     }
 
 }

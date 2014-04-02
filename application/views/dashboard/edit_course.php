@@ -6,12 +6,30 @@ $course = $CI->datamodel->getCourse($id);
 <div class="panel">
     <h4>Edit Course</h4>
 </div>
-<form method="post" action="<?php echo base_url(); ?>/index.php?/post/edit_courses" data-abide>
+
+<?php
+if ($CI->input->get("success") == "true") {
+    ?>
+    <div data-alert class="alert-box success radius">
+        You have successfully updated the course.
+        <a href="#" class="close">&times;</a>
+
+    </div>
+<?php } else if ($CI->input->get("success") == "error") {
+    ?>
+    <div data-alert class="alert-box warning radius">
+        There was a problem saving the slot to the database.
+        <a href="#" class="close">&times;</a>
+
+    </div>
+<?php } ?>
+<form method="post" action="<?php echo base_url(); ?>/index.php?/post/edit_course" data-abide>
     <div class="clearfix"></div>
     <div class="large-6 column">
         <div class="crn-field">
             <label>CRN <small>required</small>
                 <input type="text" name="data[course][crn]" required value="<?php echo $course->crn; ?>" />
+                <input type="hidden" name="data[course][id]" value="<?php echo $course->id; ?>" />
                 <small class="error">CRN is required.</small>
             </label>
         </div>

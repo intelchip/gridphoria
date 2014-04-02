@@ -53,6 +53,8 @@ interface UserInterface {
      * Method to populate current user's information 
      */
     public function get_current_user();
+    
+    public function is_curent_user_chair();
 
     /**
      * Method to populate user information 

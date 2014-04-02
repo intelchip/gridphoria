@@ -112,6 +112,9 @@ class Dashboard extends CI_Controller {
      * Slots Section 
      * ========================================================================= */
 
+    /**
+     * Page that shows the add slots page
+     */
     public function add_slots() {
 
         $data = $this->layoutmodel->main("Gridphoria | Add Slots");
@@ -120,6 +123,10 @@ class Dashboard extends CI_Controller {
         $this->load->view("layout/footer", $data);
     }
 
+    /**
+     * Page that lets user edit a slot
+     * @param type $id
+     */
     public function edit_slot($id) {
 
         $data = $this->layoutmodel->main("Gridphoria | Edit Slot");
@@ -130,6 +137,9 @@ class Dashboard extends CI_Controller {
         $this->load->view("layout/footer", $data);
     }
     
+    /**
+     * Page that lists out all the slots
+     */
     public function view_slots() {
 
         $data = $this->layoutmodel->main("Gridphoria | Manage Slots");
@@ -140,6 +150,10 @@ class Dashboard extends CI_Controller {
         $this->load->view("layout/footer", $data);
     }
 
+    /**
+     * Deletes a slot
+     * @param type $id
+     */
     public function delete_slot($id) {        
         $this->datamodel->deleteSlot($id);
         redirect("/dashboard/view_courses");

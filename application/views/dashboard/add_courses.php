@@ -5,14 +5,14 @@ $CI = & get_instance();
     <h4>Add Courses</h4>
 </div>
 <?php
-if (@$_GET["success"] == "true") {
+if ($CI->input->get("success") == "true") {
     ?>
     <div data-alert class="alert-box success radius">
         You have successfully added a course.
         <a href="#" class="close">&times;</a>
 
     </div>
-<?php } else if (@$_GET["success"] == "error") {
+<?php } else if ($CI->input->get("success") == "error") {
     ?>
     <div data-alert class="alert-box warning radius">
         There was a problem saving the course to the database.
@@ -109,7 +109,8 @@ if (@$_GET["success"] == "true") {
                     <option value="">-- Select a slot --</option>
                     <?php
                     foreach ($CI->datamodel->getSlots() as $row) {
-                        echo "<option value = '{$row->id}'>{$row->slot}</option>";
+                        $is_not_closed = $CI->datamodel->getAvailableSlots($row->id) > 0;
+                        echo "<option value = '".($is_not_closed ? $row->id : "")."'>{$row->slot}". ($is_not_closed ? "" : " <em>(Closed)</em>" ) ."</option>";
                     }
                     ?>
                 </select>

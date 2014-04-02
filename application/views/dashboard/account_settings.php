@@ -9,14 +9,14 @@ $CI = & get_instance();
         </div>
 
         <?php
-        if (@$_GET["success"] == "true") {
+        if ($CI->input->get("success") == "true") {
             ?>
             <div data-alert class="alert-box success radius">
                 You have successfully updated user info.
                 <a href="#" class="close">&times;</a>
 
             </div>
-        <?php } else if (@$_GET["success"] == "error") {
+        <?php } else if ($CI->input->get("success") == "error") {
             ?>
             <div data-alert class="alert-box warning radius">
                 There was a problem updating user info in the database.
@@ -64,6 +64,16 @@ $CI = & get_instance();
                 </label>
             </div>
 
+            <input type="submit" class="button radius" value="Save" />
+        </div>
+    </form>
+    <hr />
+    <div class="panel">
+        <h4>Change Password</h4>
+    </div>
+    <div class="large-6 column">
+        <form method="post" action="<?php echo base_url(); ?>/index.php?/authenticate/update_password" data-abide>            
+
             <div class="password-field">
                 <label>Password <small>required. *must be 4 digits long</small>
                     <input id="password" type="password" name="data[user][password]" required pattern="[0-9]{4}"/>
@@ -76,8 +86,7 @@ $CI = & get_instance();
                     <small class="error">The password did not match</small>
                 </label>
             </div>
-
-            <input type="submit" class="button radius" value="Save" />
-        </div>
-    </form>
+            <input type="submit" class="button radius" value="Change Password" />
+        </form>
+    </div>
 </div>

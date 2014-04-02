@@ -178,10 +178,10 @@ class CourseModel implements CourseInterface {
         $this->modified_by = "SYS";
 
         $sql = "update 
-                    users 
+                    courses 
                 set 
                     crn = '{$this->crn}', 
-                    name = '{$this->last_name}',
+                    name = '{$this->name}',
                     description = '{$this->description}', 
                     instructor_id = '{$this->instructor_id}', 
                     semester = '{$this->semester}',
@@ -192,6 +192,41 @@ class CourseModel implements CourseInterface {
                     id = '{$this->id}'";
 
         $this->CI->db->query($sql);
+
+        // check if a schedule exists
+        $check_schedule_sql = "delete from course_schedule where course_id = '{$this->id}';";
+        $this->CI->db->query($check_schedule_sql);
+
+        foreach ($this->schedule as $schedule) {
+            $start_time = $schedule["start_time"];
+            $end_time = $schedule["end_time"];
+            $day = $schedule["day"];
+
+            $schedule_sql = "insert 
+              into 
+                course_schedule ( course_id, 
+                        start_time,
+                        end_time,
+                        day,
+                        modified,
+                        modified_by)
+              values('{$this->id}', 
+                        '$start_time', 
+                        '$end_time', 
+                        '$day', 
+                        '{$this->modified}', 
+                        '{$this->modified_by}'); ";
+            $this->CI->db->query($schedule_sql);
+        }
+
+        // insert into slot allocation table
+        $slot_sql = "update 
+                        slot_allocation 
+                     set
+                        slot_id = '{$this->slot}'
+                     where
+                        course_id = '{$this->id}' ;";
+        $this->CI->db->query($slot_sql);
     }
 
     /**
@@ -201,10 +236,10 @@ class CourseModel implements CourseInterface {
     public function delete() {
         $course_sql = "delete from courses where id='{$this->id}' && instructor_id = '{$this->session_uid}'";
         $this->CI->db->query($course_sql);
-        
+
         $course_schedule_sql = "delete from course_schedule where course_id='{$this->id}'";
         $this->CI->db->query($course_schedule_sql);
-        
+
         $slot_allocation_sql = "delete from slot_allocation where course_id = '{$this->id}'";
         $this->CI->db->query($slot_allocation_sql);
     }

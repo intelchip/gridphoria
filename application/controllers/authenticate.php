@@ -12,19 +12,33 @@ class Authenticate extends CI_Controller {
     var $data = null;
 
     /**
+     * Session Data
+     * @var array $session_data 
+     */
+    public static $session_data;
+
+    /**
+     * Logged in?
+     * @var boolean $session_logged_in 
+     */
+    public static $session_logged_in;
+
+    /**
+     * Session uid
+     * @var int $session_uid 
+     */
+    public static $session_uid;
+
+    /**
      * Constructor
      */
     public function __construct() {
         parent::__construct();
 
-        $this->session_uid = $this->usermodel->session_uid;
-        $this->session_logged_in = $this->usermodel->session_logged_in;
+        $this->session_uid = $this->session->userdata('uid');
+        $this->session_logged_in = $this->session->userdata('logged_in');
+        $this->session_data = $this->session->all_userdata();
         $this->data = $this->input->post("data");
-
-        // redirect users if there is no session		
-//        if ($this->session_uid) {
-//            redirect(base_url());
-//        }
     }
 
     /**
@@ -115,15 +129,18 @@ class Authenticate extends CI_Controller {
     /**
      * Updates current user in db
      */
-    public function update_user() {
+    public function update_user() {    
+        
+        // redirect users if there is no session		
+        if (!$this->session_uid) {
+            redirect("/");
+        }
 
         if ($this->data) {
 
             $email = $this->data['user']['email'];
             $first_name = $this->data['user']['first_name'];
             $last_name = $this->data['user']['last_name'];
-            $password = sha1($this->data['user']['password']);
-            $cpassword = sha1($this->data['user']['cpassword']);
             $role = $this->data['user']['role'];
             $modified = time();
             $modified_by = "SYS";
@@ -132,7 +149,6 @@ class Authenticate extends CI_Controller {
             $user->email = $email;
             $user->first_name = $first_name;
             $user->last_name = $last_name;
-            $user->password = $password;
             $user->role_id = $role;
             $user->modified = $modified;
             $user->modified_by = $modified_by;
@@ -141,7 +157,40 @@ class Authenticate extends CI_Controller {
                     !empty($email) &&
                     !empty($first_name) &&
                     !empty($last_name) &&
-                    is_numeric($role) &&
+                    is_numeric($role)) {
+
+                $user->update();
+
+                // redirect back to main page to get to the dashboard
+                redirect("/dashboard/account_settings?success=true");
+            } else {
+                echo "<h2>Sorry something went wrong! :(</h2>";
+            }
+        }
+    }
+
+    /**
+     * Updates user's password
+     */
+    public function update_password() {       
+
+        // redirect users if there is no session		
+        if (!$this->session_uid) {
+            redirect("/");
+        }
+        
+        if ($this->data) {
+            $password = sha1($this->data['user']['password']);
+            $cpassword = sha1($this->data['user']['cpassword']);
+            $modified = time();
+            $modified_by = "SYS";
+
+            $user = $this->usermodel->get_current_user();
+            $user->password = $password;
+            $user->modified = $modified;
+            $user->modified_by = $modified_by;
+
+            if ($user->check_user() &&
                     !empty($password) &&
                     !empty($cpassword) &&
                     $password == $cpassword) {

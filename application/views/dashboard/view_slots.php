@@ -2,17 +2,17 @@
 $CI = & get_instance();
 ?>
 <div class="panel">
-    <h4>Manage Slots</h4>
+    <h4>View Slots</h4>
 </div>
 <?php
-if (@$_GET["success"] == "true") {
+if ($CI->input->get("success") == "true") {
     ?>
     <div data-alert class="alert-box success radius">
         You have successfully updated the slots table.
         <a href="#" class="close">&times;</a>
 
     </div>
-<?php } else if (@$_GET["success"] == "error") {
+<?php } else if ($CI->input->get("success") == "error") {
     ?>
     <div data-alert class="alert-box warning radius">
         There was a problem saving the slot to the database.

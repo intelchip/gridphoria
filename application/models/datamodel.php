@@ -77,7 +77,7 @@ class Datamodel extends CI_Model {
     }
     
     /**
-     * Returns slot data
+     * Returns a single slot's data
      * @param int $id
      * @return object
      */

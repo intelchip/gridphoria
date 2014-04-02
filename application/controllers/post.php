@@ -41,6 +41,12 @@ class Post extends CI_Controller {
         redirect(base_url() . '/');
     }
 
+    /*==========================================================================
+        Courses
+     * =========================================================================*/
+    /**
+     * Adds courses to the DB
+     */
     public function add_courses() {
         $course = $this->coursemodel;
         $course->crn = $this->data["course"]["crn"];
@@ -58,7 +64,38 @@ class Post extends CI_Controller {
             redirect($_SERVER['HTTP_REFERER'] . "?success=error");
         }
     }
+    
+    /**
+     * Updates a course
+     * @param int $id
+     */
+    public function edit_course(){        
+        $course = $this->coursemodel;
+        $course->id = $this->data["course"]["id"];
+        $course->crn = $this->data["course"]["crn"];
+        $course->name = $this->data["course"]["name"];
+        $course->description = $this->data["course"]["description"];
+        $course->semester = $this->data["course"]["semester"];
+        $course->instructor_id = $this->data["course"]["instructor"];
+        $course->schedule = $this->data["course"]["schedule"];
+        $course->slot = $this->data["course"]["slot"];
 
+        if ($course->is_valid()) {
+            $course->update();
+            redirect("/dashboard/edit_course/{$course->id}?success=true");
+        } else {
+            redirect("/dashboard/edit_course/{$course->id}?success=error");
+        }
+    }
+    
+    
+    /*==========================================================================
+        Slots
+     * =========================================================================*/
+
+    /**
+     * Adds slots to the DB
+     */
     public function add_slots() {
         $slot_info = $this->data["slot"];
         $name = $slot_info["slot_name"];
@@ -81,6 +118,9 @@ class Post extends CI_Controller {
         }
     }
 
+    /**
+     * Edits slots
+     */
     public function edit_slot() {
         $slot_info = $this->data["slot"];
         $id = $slot_info["slot_id"];
