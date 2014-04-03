@@ -58,37 +58,6 @@ if ($CI->input->get("success") == "true") {
             </label>
         </div>
 
-        <div class="times-offered">
-            <label>Times offered <small>Required</small></label>
-            <?php
-            $days = array(
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday"
-            );
-            ?>
-            <div class="course-schedule">
-                <label>
-                    <select class="columns large-4 left" name="data[course][schedule][0][day]" required>
-                        <option value=""> -- Select Day --</option>
-                        <?php
-                        foreach ($days as $day) {
-                            echo "<option value='$day'>$day</option>";
-                        }
-                        ?>
-                    </select>
-                    <input class="timepicker left" type="text" name="data[course][schedule][0][start_time]" placeholder="Start Time" required />
-                    <input class="timepicker left" type="text" name="data[course][schedule][0][end_time]" placeholder="End Time" required />
-                    <small class="error">Please add a time schedule.</small>
-                </label>
-            </div>
-            <a id="addNewTimescheduleField" class="right" href="javascript:void(0)">Add time slot</a>
-            <p></p>
-            <div class="clearfix"></div>
-        </div>
-
         <div class="semseter-field">
             <label>Semester <small>required</small>
                 <select name="data[course][semester]" required>
@@ -110,7 +79,7 @@ if ($CI->input->get("success") == "true") {
                     <?php
                     foreach ($CI->datamodel->getSlots() as $row) {
                         $is_not_closed = $CI->datamodel->getAvailableSlots($row->id) > 0;
-                        echo "<option value = '".($is_not_closed ? $row->id : "")."'>{$row->slot}". ($is_not_closed ? "" : " <em>(Closed)</em>" ) ."</option>";
+                        echo "<option value = '".($is_not_closed ? $row->id : "")."'>Slot {$row->slot}". ($is_not_closed ? " - {$CI->datamodel->getAvailableSlots($row->id)} Remaining" : " <em>(Closed)</em>" ) ."</option>";
                     }
                     ?>
                 </select>

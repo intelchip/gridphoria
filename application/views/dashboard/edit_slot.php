@@ -41,6 +41,62 @@ if ($CI->input->get("success") == "true") {
                 <input type="text" value="<?php echo $available_spots; ?>" disabled />
             </label>
         </div>
+
+        <div class="times-offered">
+            <label>Times offered <small>Required</small></label>
+            <?php
+            $count = 0;
+            $schedule_results = $CI->datamodel->getSlotSchedule($slot->id);
+            $days = $CI->datamodel->getWeekDays();
+
+            foreach ($schedule_results as $sch) {
+                ?>
+                <div class="course-schedule">
+                    <label>
+                        <select class="columns large-4 left" name="data[slot][schedule][<?php echo $count; ?>][day]" required>
+                            <option value=""> -- Select Day --</option>
+                            <?php
+                            foreach ($days as $row) {
+                                echo "<option value='$row->id'" . ($row->id == $sch->day_id ? "selected='selected'" : "") . ">$row->day</option>";
+                            }
+                            ?>
+                        </select>
+                        <input class="timepicker left" type="text" name="data[slot][schedule][<?php echo $count; ?>][start_time]" placeholder="Start Time" required value="<?php echo $sch->start_time; ?>" />
+                        <input class="timepicker left" type="text" name="data[slot][schedule][<?php echo $count; ?>][end_time]" placeholder="End Time" required value="<?php echo $sch->end_time; ?>" />
+                        <small class="error">Please add a time schedule.</small>
+                        <a data-schedulefield="<?php echo $count; ?>" class="timeschedule-delete" href="javascript:void(0)">remove</a>
+                    </label>
+                </div>
+                <?php
+                $count++;
+            }
+
+            // 
+            if (count($schedule_results) == 0) {
+                ?>
+                <div class="course-schedule">
+                    <label>
+                        <select class="columns large-4 left" name="data[slot][schedule][0][day]" required>
+                            <option value=""> -- Select Day --</option>
+                            <?php
+                            foreach ($days as $row) {
+                                echo "<option value='$row->id'>$row->day</option>";
+                            }
+                            ?>
+                        </select>
+                        <input class="timepicker left" type="text" name="data[slot][schedule][0][start_time]" placeholder="Start Time" required />
+                        <input class="timepicker left" type="text" name="data[slot][schedule][0][end_time]" placeholder="End Time" required />
+                        <small class="error">Please add a time schedule.</small>
+                    </label>
+                </div>
+                <?php
+            }
+            ?>
+            <a id="addNewTimescheduleField" data-section="slot" class="right" href="javascript:void(0)">Add time slot</a>
+            <p></p>
+            <div class="clearfix"></div>
+        </div>
+
         <input type="submit" class="button radius" value="Save" />
     </div>
 </form>

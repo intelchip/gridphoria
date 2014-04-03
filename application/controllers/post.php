@@ -1,7 +1,8 @@
 <?php
 
-if (!defined('BASEPATH'))
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
+}
 
 class Post extends CI_Controller {
 
@@ -100,19 +101,21 @@ class Post extends CI_Controller {
         $slot_info = $this->data["slot"];
         $name = $slot_info["slot_name"];
         $capacity = $slot_info["capacity"];
+        $schedule = $slot_info["schedule"];
 
         $user = $this->usermodel->get_current_user();
 
         $slot = $this->slotmodel;
         $slot->slot = $name;
         $slot->capacity = $capacity;
+        $slot->schedule = $schedule;
         $slot->modified = time();
         $slot->modified_by = $user->email;
 
 
         if ($slot->is_valid()) {
             $slot->save();
-            redirect("/dashboad/view_slots?success=true");
+            redirect("/dashboard/view_slots?success=true");
         } else {
             redirect($_SERVER['HTTP_REFERER'] . "?success=error");
         }
@@ -126,6 +129,7 @@ class Post extends CI_Controller {
         $id = $slot_info["slot_id"];
         $name = $slot_info["slot_name"];
         $capacity = $slot_info["capacity"];
+        $schedule = $slot_info["schedule"];
 
         $user = $this->usermodel->get_current_user();
 
@@ -133,15 +137,16 @@ class Post extends CI_Controller {
         $slot->id = $id;
         $slot->slot = $name;
         $slot->capacity = $capacity;
+        $slot->schedule = $schedule;
         $slot->modified = time();
         $slot->modified_by = $user->email;
 
 
         if ($slot->is_valid()) {
             $slot->update();
-            redirect($_SERVER['HTTP_REFERER'] . "?success=true");
+            redirect("/dashboard/edit_slot/$id?success=true");
         } else {
-            redirect($_SERVER['HTTP_REFERER'] . "?success=error");
+            redirect("/dashboard/edit_slot/$id?success=error");
         }
     }
 

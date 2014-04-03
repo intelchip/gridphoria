@@ -18,7 +18,6 @@ class CourseModel implements CourseInterface {
     private $description;
     private $instructor_id;
     private $semester;
-    private $schedule;
     private $slot;
     private $modified;
     private $modified_by;
@@ -132,28 +131,6 @@ class CourseModel implements CourseInterface {
         // insert course schedule
         $this->id = $this->CI->db->insert_id();
 
-        foreach ($this->schedule as $schedule) {
-            $start_time = $schedule["start_time"];
-            $end_time = $schedule["end_time"];
-            $day = $schedule["day"];
-
-            $schedule_sql = "insert 
-              into 
-                course_schedule ( course_id, 
-                        start_time,
-                        end_time,
-                        day,
-                        modified,
-                        modified_by)
-              values('{$this->id}', 
-                        '$start_time', 
-                        '$end_time', 
-                        '$day', 
-                        '{$this->modified}', 
-                        '{$this->modified_by}'); ";
-            $this->CI->db->query($schedule_sql);
-        }
-
         // insert into slot allocation table
         $slot_sql = "insert 
                      into
@@ -192,33 +169,7 @@ class CourseModel implements CourseInterface {
                     id = '{$this->id}'";
 
         $this->CI->db->query($sql);
-
-        // check if a schedule exists
-        $check_schedule_sql = "delete from course_schedule where course_id = '{$this->id}';";
-        $this->CI->db->query($check_schedule_sql);
-
-        foreach ($this->schedule as $schedule) {
-            $start_time = $schedule["start_time"];
-            $end_time = $schedule["end_time"];
-            $day = $schedule["day"];
-
-            $schedule_sql = "insert 
-              into 
-                course_schedule ( course_id, 
-                        start_time,
-                        end_time,
-                        day,
-                        modified,
-                        modified_by)
-              values('{$this->id}', 
-                        '$start_time', 
-                        '$end_time', 
-                        '$day', 
-                        '{$this->modified}', 
-                        '{$this->modified_by}'); ";
-            $this->CI->db->query($schedule_sql);
-        }
-
+        
         // insert into slot allocation table
         $slot_sql = "update 
                         slot_allocation 

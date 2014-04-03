@@ -32,13 +32,15 @@ class Layoutmodel extends CI_Model {
 
 
         $this->css = array(
-            array('main.css?version=2.0&amp;time=' . time()),
+            array('bootstrap.min.css'),
+            array('bootstrap-timepicker.min.css'),
             array('foundation.css'),
             array("jquery.timepicker.css"),
             array('bootstrap-datepicker.css'),
             array('fullcalendar.css'),
             array('fullcalendar.print.css'),
-            array('foundation-icons.css')
+            array('foundation-icons.css'),
+            array('main.css?version=2.0&amp;time=' . time())
         );
         $this->js = array(
             array("vendor/modernizr.js"),

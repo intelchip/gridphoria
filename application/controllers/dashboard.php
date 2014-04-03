@@ -156,7 +156,7 @@ class Dashboard extends CI_Controller {
      */
     public function delete_slot($id) {
         $this->datamodel->deleteSlot($id);
-        redirect("/dashboard/view_courses");
+        redirect("/dashboard/view_slots");
     }
 
     /**

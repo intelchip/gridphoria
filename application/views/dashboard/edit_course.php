@@ -60,46 +60,6 @@ if ($CI->input->get("success") == "true") {
                 </select>
             </label>
         </div>
-        <div class="times-offered">
-            <label>Times offered <small>Required</small></label>
-            <?php
-            $count = 0;
-            $schedule_results = $CI->datamodel->getCourseSchedule($course->id);
-            $days = array(
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday"
-            );
-
-            foreach ($schedule_results as $sch) {
-                ?>
-                <div class="course-schedule">
-                    <label>
-                        <select class="columns large-4 left" name="data[course][schedule][<?php echo $count; ?>][day]" required>
-                            <option value=""> -- Select Day --</option>
-                            <?php
-                            foreach ($days as $day) {
-                                echo "<option value='$day'" . ($day == $sch->day ? "selected='selected'" : "") . ">$day</option>";
-                            }
-                            ?>
-                        </select>
-                        <input class="timepicker left" type="text" name="data[course][schedule][<?php echo $count; ?>][start_time]" placeholder="Start Time" required value="<?php echo $sch->start_time; ?>" />
-                        <input class="timepicker left" type="text" name="data[course][schedule][<?php echo $count; ?>][end_time]" placeholder="End Time" required value="<?php echo $sch->end_time; ?>" />
-                        <small class="error">Please add a time schedule.</small>
-                        <a data-schedulefield="<?php echo $count; ?>" class="timeschedule-delete" href="javascript:void(0)">remove</a>
-                    </label>
-                </div>
-                <?php
-                $count++;
-            }
-            ?>
-            <a id="addNewTimescheduleField" class="right" href="javascript:void(0)">Add time slot</a>
-            <p></p>
-            <div class="clearfix"></div>
-        </div>
-
         <div class="semseter-field">
             <label>Semester <small>required</small>
                 <select name="data[course][semester]" required>
@@ -120,8 +80,10 @@ if ($CI->input->get("success") == "true") {
                 <select name="data[course][slot]" required="">
                     <option value="">-- Select a slot --</option>
                     <?php
-                    foreach ($CI->datamodel->getSlots() as $row) {
-                        echo "<option value = '{$row->id}'' " . ($row->id == $course->slot ? "selected='true'" : "") . ">{$row->slot}</option>";
+                    foreach ($CI->datamodel->getSlots() as $row) {$is_not_closed = $CI->datamodel->getAvailableSlots($row->id) > 0;
+                        echo "<option value = '".($is_not_closed ? $row->id : "")."' " . ($row->id == $course->slot ? "selected='true'" : "") . ">Slot {$row->slot}". ($is_not_closed ? " - {$CI->datamodel->getAvailableSlots($row->id)} Remaining" : " <em>(Closed)</em>" ) ."</option>";
+                    }
+                    ?>
                     }
                     ?>
                 </select>

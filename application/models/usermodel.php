@@ -289,7 +289,7 @@ class UserModel implements UserInterface {
             $query = $this->CI->db->query($sql);
             $row = $query->row();
 
-            return $row->role_id == 1;
+            return $row && $row->role_id == 1;
         }
         return false;
     }

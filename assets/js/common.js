@@ -1,6 +1,11 @@
 $(document).ready(function() {
 
     $(document).foundation();
+    
+    // hide timepicker when out of focus
+//    $("*:not(.timepicker)").click(function(){
+//        $(".timepicker").timepicker("hideWidget");
+//    });
 
     // calendar
     $('#calendar').fullCalendar({
@@ -48,23 +53,26 @@ $(document).ready(function() {
     });
 
     // Timepicler
-    $(".timepicker").timepicker();
+    $(".timepicker").timepicker().on('show.timepicker', function(e) {
+        $(".timepicker").not(this).timepicker('hideWidget');
+    });
 
     // delete link for schedule time
     $(".timeschedule-delete").click(function() {
         var slot = $(this).data("schedulefield");
+        var section = $(this).data("section");
 
         // get how many fields there are
         var timeSlots = $(".course-schedule").length
 
         // only remove when its more than one time slot
         if (timeSlots > 1)
-            $("select[name='data[course][schedule][" + slot + "][day]']").parent().remove();
+            $("select[name='data[" + section + "][schedule][" + slot + "][day]']").parent().remove();
         else
             alert("You need to have atleast one time slot that your course meets!");
 
         // turn on foundation on the page
-        $(document).off().foundation();
+        $(document).foundation();
     });
     // add new timeschedule times
     $("#addNewTimescheduleField").click(function() {
@@ -72,13 +80,41 @@ $(document).ready(function() {
         // get how many fields there are
         var timeSlots = $(".course-schedule").length;
         var newSlot = timeSlots;
+        var section = $(this).data("section");
 
         // Append new slot to the times offered section
-        var daysOfTheWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+        var daysOfTheWeek = [{
+                id: 1,
+                day: "Sunday"
+            },
+            {
+                id: 2,
+                day: "Monday"
+            },
+            {
+                id: 3,
+                day: "Tuesday"
+            },
+            {
+                id: 4,
+                day: "Wednesday"
+            },
+            {
+                id: 5,
+                day: "Thursday"
+            },
+            {
+                id: 6,
+                day: "Friday"
+            },
+            {
+                id: 7,
+                day: "Saturday"
+            }]; //["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
         var courseScheduleDiv = $("<div class='course-schedule' />");
-        var daysSelectField = $("<select class='columns large-4 left' name='data[course][schedule][" + newSlot + "][day]' required><option value=\"\">-- Select Day --</option></select>");
-        var startTimeField = $("<input class='timepicker left' type='text' name='data[course][schedule][" + newSlot + "][start_time]' placeholder='Start Time' required />");
-        var endTimeField = $("<input class='timepicker left' type='text' name='data[course][schedule][" + newSlot + "][end_time]' placeholder='End Time' required />");
+        var daysSelectField = $("<select class='columns large-4 left' name='data[" + section + "][schedule][" + newSlot + "][day]' required><option value=\"\">-- Select Day --</option></select>");
+        var startTimeField = $("<input class='timepicker left' type='text' name='data[" + section + "][schedule][" + newSlot + "][start_time]' placeholder='Start Time' required />");
+        var endTimeField = $("<input class='timepicker left' type='text' name='data[" + section + "][schedule][" + newSlot + "][end_time]' placeholder='End Time' required />");
         var deleteLink = $("<a data-schedulefield='" + newSlot + "' href='javascript:void(0)'>remove</a>");
         var errorAlert = $("<small class='error'>Please add a time schedule.</small>");
 
@@ -86,15 +122,15 @@ $(document).ready(function() {
         deleteLink.click(function() {
             var slot = $(this).data("schedulefield");
             $(this).remove();
-            $("select[name='data[course][schedule][" + slot + "][day]']").parents(".course-schedule").remove();
+            $("select[name='data[" + section + "][schedule][" + slot + "][day]']").parents(".course-schedule").remove();
 
             // turn on foundation on the page
-            $(document).off().foundation();
+            $(document).foundation();
         });
 
         // populate select day field
         $.each(daysOfTheWeek, function() {
-            daysSelectField.append($('<option></option>').attr("value", this).text(this));
+            daysSelectField.append($('<option></option>').attr("value", this.id).text(this.day));
         });
 
         startTimeField.timepicker();
@@ -109,6 +145,13 @@ $(document).ready(function() {
 
 
         // turn on foundation on the page
-        $(document).off().foundation();
+        $(document).foundation();
+
+
+        // Timepicler
+        $(".timepicker").timepicker().on('show.timepicker', function(e) {
+            $(".timepicker").not(this).timepicker('hideWidget');
+        });
+
     });
 });

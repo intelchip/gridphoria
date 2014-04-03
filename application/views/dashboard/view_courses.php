@@ -26,12 +26,12 @@ $CI = & get_instance();
             $instructor = $CI->usermodel;
             $instructor->id = $row->instructor_id;
             $instructor->get_user();
-            $schedule = function ($course_id) {
+            $schedule = function ($slot_id) {
                 $CI = & get_instance();
-                $schedule_results = $CI->datamodel->getCourseSchedule($course_id);
+                $schedule_results = $CI->datamodel->getSlotSchedule($slot_id);
                 $results = "";
                 foreach ($schedule_results as $sch) {
-                    $results .= "<div>{$sch->day}:<br /><small>{$sch->start_time} - {$sch->end_time}</small></div><div class='clearfix'></div>";
+                    $results .= "<div>{$CI->datamodel->getDay($sch->day_id)->day}:<br /><small>{$sch->start_time} - {$sch->end_time}</small></div><div class='clearfix'></div>";
                 }
                 return $results;
             };
@@ -42,7 +42,7 @@ $CI = & get_instance();
                     <td>{$row->description}</td>
                     <td>{$instructor->first_name} {$instructor->last_name}</td>
                     <td>{$CI->datamodel->getSemester($row->semester)}</td>
-                    <td>" . $schedule($row->id) . "</td>
+                    <td>" . $schedule($row->slot) . "</td>
                     <td>{$row->slot}</td>
                     <td><small>" . timespan($row->modified, time()) . " ago</small></td>
                     <td>{$row->modified_by}</td>

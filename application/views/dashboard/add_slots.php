@@ -35,6 +35,31 @@ if ($CI->input->get("success") == "true") {
                 <small class="error">Please add numeric number of spots available for this slot!</small>
             </label>
         </div>
+        
+        <div class="times-offered">
+            <label>Times offered <small>Required</small></label>
+            <?php
+            $days = $CI->datamodel->getWeekDays();
+            ?>
+            <div class="course-schedule">
+                <label>
+                    <select class="columns large-4 left" name="data[slot][schedule][0][day]" required>
+                        <option value=""> -- Select Day --</option>
+                        <?php
+                        foreach ($days as $row) {
+                            echo "<option value='$row->id'>$row->day</option>";
+                        }
+                        ?>
+                    </select>
+                    <input class="timepicker left" type="text" name="data[slot][schedule][0][start_time]" placeholder="Start Time" required />
+                    <input class="timepicker left" type="text" name="data[slot][schedule][0][end_time]" placeholder="End Time" required />
+                    <small class="error">Please add a time schedule.</small>
+                </label>
+            </div>
+            <a id="addNewTimescheduleField" data-section="slot" class="right" href="javascript:void(0)">Add time slot</a>
+            <p></p>
+            <div class="clearfix"></div>
+        </div>
         <input type="submit" class="button radius" value="Add Slot" />
     </div>
 </form>

@@ -82,3 +82,12 @@ h1, h2, h3, h4 {
 .full-table-width{
     width: 100%;
 }
+
+.bootstrap-timepicker-widget table td input {
+    width: 40px !important;
+}
+
+select{
+    padding-top: 0;
+    padding-bottom: 0;
+}

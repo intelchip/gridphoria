@@ -131,12 +131,12 @@ class Datamodel extends CI_Model {
     }
     
     /**
-     * Gets an array object of course schedules
-     * @param type $course_id
+     * Gets an array object of slot schedules
+     * @param type $slot_id
      * @return type
      */
-    public function getCourseSchedule($course_id) {
-        $sql = "select * from course_schedule where course_id = '$course_id'";
+    public function getSlotSchedule($slot_id) {
+        $sql = "select * from slot_schedule where slot_id = '$slot_id'";
         $query = $this->db->query($sql);
         return $query->result();
     }
@@ -149,6 +149,27 @@ class Datamodel extends CI_Model {
         $course = $this->coursemodel;
         $course->id=$id;
         $course->delete();
+    }
+    
+    /**
+     * Gets array object of days in a week
+     * @return type
+     */
+    public function getWeekDays(){
+        $sql = "select * from days";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+    
+    /**
+     * Gets day from specified id
+     * @param int $id
+     * @return object
+     */
+    public function getDay($id){
+        $sql = "select * from days where id = '$id'";
+        $query = $this->db->query($sql);
+        return $query->row();
     }
 
 }

@@ -25,6 +25,7 @@ if ($CI->input->get("success") == "true") {
     <thead>
         <tr>
             <td>Slot</td>
+            <td>Time</td>
             <td>Available Spots</td>
             <td>Capacity</td>
             <td></td>
@@ -34,8 +35,18 @@ if ($CI->input->get("success") == "true") {
 
         <?php
         foreach ($slots as $slot) {
+            $schedule = function ($slot_id) {
+                $CI = & get_instance();
+                $schedule_results = $CI->datamodel->getSlotSchedule($slot_id);
+                $results = "";
+                foreach ($schedule_results as $sch) {
+                    $results .= "<div>{$CI->datamodel->getDay($sch->day_id)->day}:<br /><small>{$sch->start_time} - {$sch->end_time}</small></div><div class='clearfix'></div>";
+                }
+                return $results;
+            };
             echo "<tr>
                     <td>{$slot->slot}</td>
+                    <td>" . $schedule($slot->id) . "</td>
                     <td>{$CI->datamodel->getAvailableSlots($slot->id)}</td>
                     <td>{$slot->capacity}</td>
                     <td>" . ( $is_current_user_faculty_chair ? "

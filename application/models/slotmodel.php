@@ -7,12 +7,11 @@ if (!defined('BASEPATH')) {
 require_once 'interfaces/slotinterface.php';
 
 class SlotModel implements SlotInterface {
-    
-    
 
     private $CI;
     private $id;
     private $slot;
+    private $schedule;
     private $capacity;
     private $modified;
     private $modified_by;
@@ -47,7 +46,6 @@ class SlotModel implements SlotInterface {
         $this->session_logged_in = $this->CI->session->userdata('logged_in');
         $this->session_data = $this->CI->session->all_userdata();
     }
-
 
     /**
      * Our Destructor 
@@ -87,9 +85,9 @@ class SlotModel implements SlotInterface {
     /**
      * Deletes slot from db
      */
-    public function delete() {        
-        $sql = "delete from slots where id = '{$this->id}'";
-        $this->CI->db->query($sql);        
+    public function delete() {
+        $sql = "delete from slots where id = '{$this->id}'; delete from slot_schedule where slot_id='{$this->id}'";
+        $this->CI->db->query($sql);
     }
 
     /**
@@ -107,9 +105,34 @@ class SlotModel implements SlotInterface {
      */
     public function save() {
         $sql = "insert into slots(slot, capacity, modified, modified_by) values('{$this->slot}', '{$this->capacity}', '{$this->modified}', '{$this->modified_by}')";
-        
+
         if ($this->is_valid()) {
             $this->CI->db->query($sql);
+            
+            $this->id = $this->CI->db->insert_id();
+
+            // create schedule
+            foreach ($this->schedule as $schedule) {
+                $start_time = $schedule["start_time"];
+                $end_time = $schedule["end_time"];
+                $day = $schedule["day"];
+
+                $schedule_sql = "insert 
+              into 
+                slot_schedule (slot_id, 
+                        start_time,
+                        end_time,
+                        day_id,
+                        modified,
+                        modified_by)
+              values('{$this->id}', 
+                        '$start_time', 
+                        '$end_time', 
+                        '$day', 
+                        '{$this->modified}', 
+                        '{$this->modified_by}'); ";
+                $this->CI->db->query($schedule_sql);
+            }
         }
     }
 
@@ -118,10 +141,37 @@ class SlotModel implements SlotInterface {
      */
     public function update() {
         $sql = "update slots set slot = '{$this->slot}', capacity = '{$this->capacity}', modified = '{$this->modified}', modified_by = '{$this->modified_by}' where id = '{$this->id}'";
-        
-        if($this->is_valid() && isset($this->id) && is_numeric($this->id))
-        {
+
+        if ($this->is_valid() && isset($this->id) && is_numeric($this->id)) {
             $this->CI->db->query($sql);
+
+
+            // check if a schedule exists
+            $check_schedule_sql = "delete from slot_schedule where slot_id = '{$this->id}';";
+            $this->CI->db->query($check_schedule_sql);
+
+            // re-create schedule
+            foreach ($this->schedule as $schedule) {
+                $start_time = $schedule["start_time"];
+                $end_time = $schedule["end_time"];
+                $day = $schedule["day"];
+
+                $schedule_sql = "insert 
+              into 
+                slot_schedule (slot_id, 
+                        start_time,
+                        end_time,
+                        day_id,
+                        modified,
+                        modified_by)
+              values('{$this->id}', 
+                        '$start_time', 
+                        '$end_time', 
+                        '$day', 
+                        '{$this->modified}', 
+                        '{$this->modified_by}'); ";
+                $this->CI->db->query($schedule_sql);
+            }
         }
     }
 
