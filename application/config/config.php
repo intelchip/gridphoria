@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= '/sites/gridphoria/';
+$config['base_url']	= '';
 
 /*
 |--------------------------------------------------------------------------

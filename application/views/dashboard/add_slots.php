@@ -21,7 +21,7 @@ if ($CI->input->get("success") == "true") {
 
     </div>
 <?php } ?>
-<form method="post" action="<?php echo base_url(); ?>/index.php?/post/add_slots" data-abide>
+<form method="post" action="<?php echo base_url(); ?>index.php?/post/add_slots" data-abide>
     <div class="large-6 column">
         <div class="slot-field">
             <label>Slot <small>required</small>

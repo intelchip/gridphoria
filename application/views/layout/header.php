@@ -26,12 +26,12 @@
                         $current_user = $CI->session->userdata("uid");
                         if (!$current_user) {
                             ?>
-                            <li><a href="<?php echo base_url(); ?>/index.php?/pages/register">Register</a></li>
-                            <li><a href="<?php echo base_url(); ?>/index.php?/pages/login">Login</a></li>
+                            <li><a href="<?php echo base_url(); ?>index.php?/pages/register">Register</a></li>
+                            <li><a href="<?php echo base_url(); ?>index.php?/pages/login">Login</a></li>
                             <?php
                         } else {
                             ?>
-                            <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/">Dashboard</a></li>
+                            <li><a href="<?php echo base_url(); ?>index.php?/dashboard/">Dashboard</a></li>
                             <li><a href="#" data-dropdown="coursesDropdown">Manage Courses &raquo;</a></li>
                             <li><a href="#" data-dropdown="slotsDropdown">Manage Slots &raquo;</a></li>
                             <li>
@@ -42,22 +42,22 @@
                         ?>
                     </ul>
                     <ul id="coursesDropdown" class="nav-dropdown tiny f-dropdown" data-options="is_hover:true" data-dropdown-content>
-                        <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/add_courses">Add Courses</a></li>
-                        <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/view_courses">View Courses</a></li>
+                        <li><a href="<?php echo base_url(); ?>index.php?/dashboard/add_courses">Add Courses</a></li>
+                        <li><a href="<?php echo base_url(); ?>index.php?/dashboard/view_courses">View Courses</a></li>
                     </ul>
                     <ul id="slotsDropdown" class="nav-dropdown tiny f-dropdown" data-options="is_hover:true" data-dropdown-content>
                         <?php
                         if ($is_current_user_faculty_chair) {
                             ?>
-                            <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/add_slots">Add Slots</a></li>
+                            <li><a href="<?php echo base_url(); ?>index.php?/dashboard/add_slots">Add Slots</a></li>
                             <?php
                         }
                         ?>
-                        <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/view_slots">View Slots</a></li>
+                        <li><a href="<?php echo base_url(); ?>index.php?/dashboard/view_slots">View Slots</a></li>
                     </ul>
                     <ul id="accountDropdown" class="nav-dropdown tiny f-dropdown" data-options="is_hover:true" data-dropdown-content>
-                        <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/account_settings">Settings</a></li>
-                        <li><a href="<?php echo base_url(); ?>/index.php?/dashboard/logout">Logout</a></li>
+                        <li><a href="<?php echo base_url(); ?>index.php?/dashboard/account_settings">Settings</a></li>
+                        <li><a href="<?php echo base_url(); ?>index.php?/dashboard/logout">Logout</a></li>
                     </ul>
                 </div>
             </div>

@@ -23,7 +23,7 @@ if ($CI->input->get("success") == "true") {
 
     </div>
 <?php } ?>
-<form method="post" action="<?php echo base_url(); ?>/index.php?/post/edit_course" data-abide>
+<form method="post" action="<?php echo base_url(); ?>index.php?/post/edit_course" data-abide>
     <div class="clearfix"></div>
     <div class="large-6 column">
         <div class="crn-field">

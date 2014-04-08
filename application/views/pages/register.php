@@ -1,5 +1,5 @@
 <div class="row">
-    <form method="post" action="<?php echo base_url(); ?>/index.php?/authenticate/register_user" data-abide>
+    <form method="post" action="<?php echo base_url(); ?>index.php?/authenticate/register_user" data-abide>
 
         <div class="panel">
             <h4>Register</h4>

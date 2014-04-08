@@ -2,7 +2,7 @@
 $CI = & get_instance();
 ?>
 <div class="row">
-    <form method="post" action="<?php echo base_url(); ?>/index.php?/authenticate/update_user" data-abide>
+    <form method="post" action="<?php echo base_url(); ?>index.php?/authenticate/update_user" data-abide>
 
         <div class="panel">
             <h4>Account Settings</h4>
@@ -73,7 +73,7 @@ $CI = & get_instance();
         <h4>Change Password</h4>
     </div>
     <div class="large-6 column">
-        <form method="post" action="<?php echo base_url(); ?>/index.php?/authenticate/update_password" data-abide>            
+        <form method="post" action="<?php echo base_url(); ?>index.php?/authenticate/update_password" data-abide>            
 
             <div class="password-field">
                 <label>Password <small>required. *must be 4 digits long</small>
