@@ -71,22 +71,27 @@ if ($CI->input->get("success") == "true") {
                 <small class="error"> Semester is required.</small>
             </label>
         </div>
-
-        <div class="slot-field">
-            <label>Slot <small>required</small>
-                <select name="data[course][slot]" required>
-                    <option value="">-- Select a slot --</option>
-                    <?php
-                    foreach ($CI->datamodel->getSlots() as $row) {
-                        $is_not_closed = $CI->datamodel->getAvailableSlots($row->id) > 0;
-                        echo "<option value = '".($is_not_closed ? $row->id : "")."'>Slot {$row->slot}". ($is_not_closed ? " - {$CI->datamodel->getAvailableSlots($row->id)} Remaining" : " <em>(Closed)</em>" ) ."</option>";
-                    }
-                    ?>
-                </select>
-                <small class="error">Please select a slot.</small>
-            </label>
-        </div>
-
+        <?php
+        $slot_count = 4;
+        for ($i = 0; $i < $slot_count; $i++) {
+            ?>
+            <div class="slot-field">
+                <label>Slot <?php echo $i == 0 ? "<small>required</small>" : ""; ?>
+                    <select name="data[course][slots][<?php echo $i; ?>]" <?php echo $i == 0 ? "required" : "" ?>>
+                        <option value="">-- Select a slot --</option>
+                        <?php
+                        foreach ($CI->datamodel->getSlots() as $row) {
+                            $is_not_closed = $CI->datamodel->getAvailableSlots($row->id) > 0;
+                            echo "<option value = '" . ($is_not_closed ? $row->id : "") . "'>Slot {$row->slot}" . ($is_not_closed ? " - {$CI->datamodel->getAvailableSlots($row->id)} Remaining" : " <em>(Closed)</em>" ) . "</option>";
+                        }
+                        ?>
+                    </select>
+                    <small class="error">Please select a slot.</small>
+                </label>
+            </div>
+            <?php
+        }
+        ?>
         <input type="submit" class="button radius" value="Add Course" />
     </div>
 </form>

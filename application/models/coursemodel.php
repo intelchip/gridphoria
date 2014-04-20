@@ -18,7 +18,7 @@ class CourseModel implements CourseInterface {
     private $description;
     private $instructor_id;
     private $semester;
-    private $slot;
+    private $slots;
     private $modified;
     private $modified_by;
 
@@ -94,7 +94,7 @@ class CourseModel implements CourseInterface {
      * @return boolean true | false
      */
     public function is_valid() {
-        $is_valid = isset($this->crn) && isset($this->description) && isset($this->instructor_id) && isset($this->semester) && isset($this->slot) && count($this->schedule);
+        $is_valid = isset($this->crn) && isset($this->description) && isset($this->instructor_id) && isset($this->semester) && count($this->slots);
         return $is_valid;
     }
 
@@ -114,7 +114,6 @@ class CourseModel implements CourseInterface {
                         description,
                         instructor_id,
                         semester,
-                        slot,
                         modified,
                         modified_by)
               values('{$this->crn}', 
@@ -122,7 +121,6 @@ class CourseModel implements CourseInterface {
                         '{$this->description}', 
                         '{$this->instructor_id}', 
                         '{$this->semester}',
-                        '{$this->slot}',
                         '{$this->modified}', 
                         '{$this->modified_by}')";
 
@@ -131,18 +129,23 @@ class CourseModel implements CourseInterface {
         // insert course schedule
         $this->id = $this->CI->db->insert_id();
 
+
         // insert into slot allocation table
-        $slot_sql = "insert 
+        foreach ($this->slots as $slot) {
+            if (is_numeric($slot)) {
+                $slot_sql = "insert 
                      into
                         slot_allocation (course_id, 
                         slot_id, 
                         modified,
                         modified_by)
                      values('{$this->id}', 
-                        '{$this->slot}', 
+                        '{$slot}', 
                         '{$this->modified}', 
                         '{$this->modified_by}');";
-        $this->CI->db->query($slot_sql);
+                $this->CI->db->query($slot_sql);
+            }
+        }
     }
 
     /**
@@ -162,22 +165,37 @@ class CourseModel implements CourseInterface {
                     description = '{$this->description}', 
                     instructor_id = '{$this->instructor_id}', 
                     semester = '{$this->semester}',
-                    slot = '{$this->slot}',
                     modified = '{$this->modified}', 
                     modified_by = '{$this->modified_by}'
                 where 
                     id = '{$this->id}'";
 
         $this->CI->db->query($sql);
-        
-        // insert into slot allocation table
-        $slot_sql = "update 
+
+        // clear slot_allocation table
+        $slot_sql = "delete from 
                         slot_allocation 
-                     set
-                        slot_id = '{$this->slot}'
                      where
                         course_id = '{$this->id}' ;";
         $this->CI->db->query($slot_sql);
+
+
+        // insert into slot allocation table
+        foreach ($this->slots as $slot) {
+            if (is_numeric($slot)) {
+                $slot_sql = "insert 
+                     into
+                        slot_allocation (course_id, 
+                        slot_id, 
+                        modified,
+                        modified_by)
+                     values('{$this->id}', 
+                        '{$slot}', 
+                        '{$this->modified}', 
+                        '{$this->modified_by}');";
+                $this->CI->db->query($slot_sql);
+            }
+        }
     }
 
     /**
@@ -187,9 +205,6 @@ class CourseModel implements CourseInterface {
     public function delete() {
         $course_sql = "delete from courses where id='{$this->id}' && instructor_id = '{$this->session_uid}'";
         $this->CI->db->query($course_sql);
-
-        $course_schedule_sql = "delete from course_schedule where course_id='{$this->id}'";
-        $this->CI->db->query($course_schedule_sql);
 
         $slot_allocation_sql = "delete from slot_allocation where course_id = '{$this->id}'";
         $this->CI->db->query($slot_allocation_sql);

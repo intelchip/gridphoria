@@ -26,12 +26,24 @@ $CI = & get_instance();
             $instructor = $CI->usermodel;
             $instructor->id = $row->instructor_id;
             $instructor->get_user();
-            $schedule = function ($slot_id) {
+            $schedule = function ($result) {
                 $CI = & get_instance();
-                $schedule_results = $CI->datamodel->getSlotSchedule($slot_id);
                 $results = "";
-                foreach ($schedule_results as $sch) {
-                    $results .= "<div>{$CI->datamodel->getDay($sch->day_id)->day}:<br /><small>{$sch->start_time} - {$sch->end_time}</small></div><div class='clearfix'></div>";
+                foreach ($result as $slot) {
+                    $schedule_results = $CI->datamodel->getSlotSchedule($slot->slot_id);
+                    foreach ($schedule_results as $sch) {
+                        $results .= "<div>{$CI->datamodel->getDay($sch->day_id)->day}:<br /><small>{$sch->start_time} - {$sch->end_time}</small></div><div class='clearfix'></div>";
+                    }
+                }
+                return $results;
+            };
+            
+            $slots = function($result){
+                
+                $CI = & get_instance();
+                $results = "";
+                foreach ($result as $slot) {
+                    $results .= $slot->slot_id .", ";
                 }
                 return $results;
             };
@@ -42,13 +54,13 @@ $CI = & get_instance();
                     <td>{$row->description}</td>
                     <td>{$instructor->first_name} {$instructor->last_name}</td>
                     <td>{$CI->datamodel->getSemester($row->semester)}</td>
-                    <td>" . $schedule($row->slot) . "</td>
-                    <td>{$row->slot}</td>
+                    <td>" . $schedule($CI->datamodel->getCourseSlots($row->id)) . "</td>
+                    <td>" . $slots($CI->datamodel->getCourseSlots($row->id)) . "</td>
                     <td><small>" . timespan($row->modified, time()) . " ago</small></td>
                     <td>{$row->modified_by}</td>
                     <td>" . ($is_current_user_faculty_chair || $instructor->id === $CI->session_uid ? "
-                        <a href='" . base_url() . "/index.php?/dashboard/edit_course/{$row->id}'>edit</a><br />
-                        <a href='" . base_url() . "/index.php?/dashboard/delete_course/{$row->id}'>delete</a>   
+                        <a href='" . base_url() . "index.php?/dashboard/edit_course/{$row->id}'>edit</a><br />
+                        <a href='" . base_url() . "index.php?/dashboard/delete_course/{$row->id}'>delete</a>   
                             " : "" ) . "
                     </td>
                  <tr>";

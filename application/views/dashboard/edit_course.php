@@ -74,22 +74,49 @@ if ($CI->input->get("success") == "true") {
                 <small class="error"> Semester is required.</small>
             </label>
         </div>
+        <?php
+        $slot_results = $CI->datamodel->getCourseSlots($course->id);
+        $slot_index = 0;
+        foreach ($slot_results as $slot) {
+            ?>
+            <div class="slot-field">
+                <label>Slot <?php echo $slot_index == 0 ? "<small>required</small>" : ""; ?>
+                    <select name="data[course][slots][<?php echo $slot_index++; ?>]" <?php echo $slot_index == 0 ? "required" : ""; ?>>
+                        <option value="">-- Select a slot --</option>
+                        <?php
+                        foreach ($CI->datamodel->getSlots() as $row) {
+                            $is_not_closed = $CI->datamodel->getAvailableSlots($row->id) > 0;
+                            echo "<option value = '" . ($is_not_closed ? $row->id : "") . "' " . ($row->id == $slot->slot_id ? "selected='true'" : "") . ">Slot {$row->slot}" . ($is_not_closed ? " - {$CI->datamodel->getAvailableSlots($row->id)} Remaining" : " <em>(Closed)</em>" ) . "</option>";
+                        }
+                        ?>
+                    </select>
+                    <small class="error">Please select a slot</small>
+                </label>
+            </div>
+            <?php
+        }
 
-        <div class="slot-field">
-            <label>Slot <small>required</small>
-                <select name="data[course][slot]" required="">
-                    <option value="">-- Select a slot --</option>
-                    <?php
-                    foreach ($CI->datamodel->getSlots() as $row) {$is_not_closed = $CI->datamodel->getAvailableSlots($row->id) > 0;
-                        echo "<option value = '".($is_not_closed ? $row->id : "")."' " . ($row->id == $course->slot ? "selected='true'" : "") . ">Slot {$row->slot}". ($is_not_closed ? " - {$CI->datamodel->getAvailableSlots($row->id)} Remaining" : " <em>(Closed)</em>" ) ."</option>";
-                    }
-                    ?>
-                    }
-                    ?>
-                </select>
-                <small class="error">Please select a slot</small>
-            </label>
-        </div>
+        // print out the remaining
+        $slot_count = 4 - $slot_index;
+        for ($i = 0; $i < $slot_count; $i++) {
+            ?>
+            <div class="slot-field">
+                <label>Slot <?php echo $i + $slot_index == 0 ? "<small>required</small>" : ""; ?>
+                    <select name="data[course][slots][<?php echo $i + $slot_index; ?>]" <?php echo $i + $slot_index == 0 ? "required" : "" ?>>
+                        <option value="">-- Select a slot --</option>
+                        <?php
+                        foreach ($CI->datamodel->getSlots() as $row) {
+                            $is_not_closed = $CI->datamodel->getAvailableSlots($row->id) > 0;
+                            echo "<option value = '" . ($is_not_closed ? $row->id : "") . "'>Slot {$row->slot}" . ($is_not_closed ? " - {$CI->datamodel->getAvailableSlots($row->id)} Remaining" : " <em>(Closed)</em>" ) . "</option>";
+                        }
+                        ?>
+                    </select>
+                    <small class="error">Please select a slot.</small>
+                </label>
+            </div>
+            <?php
+        }
+        ?>
 
         <input type="submit" class="button radius" value="Edit Course" />
     </div>

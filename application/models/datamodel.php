@@ -75,35 +75,51 @@ class Datamodel extends CI_Model {
         $query = $this->db->query($sql);
         return $query->result();
     }
-    
+
     /**
      * Returns a single slot's data
      * @param int $id
      * @return object
      */
-    public function getSlot($id){
+    public function getSlot($id) {
         $sql = "select * from slots where id = '$id'";
         $query = $this->db->query($sql);
         return $query->row();
     }
-    
+
     /**
      * Gets number of available slots in a slot section
      * @param type $id
      * @return int available slots
      */
-    public function getAvailableSlots($id){
-        
+    public function getAvailableSlots($id) {
+
         $slot = $this->getSlot($id);
         $capacity = $slot->capacity;
-        
+
         $sql = "select count(*) as used_slots from slot_allocation where slot_id = '$id'";
         $query = $this->db->query($sql);
-        
-        return $capacity - $query->row()->used_slots;  
+
+        return $capacity - $query->row()->used_slots;
     }
-    
-    public function deleteSlot($id){
+
+    /**
+     * Returns course's slots based on course's id
+     * @param int $id
+     * @return query result
+     */
+    public function getCourseSlots($id) {
+        $sql = "select slot_id from slot_allocation where course_id = '$id' order by slot_id";
+        $query = $this->db->query($sql);
+
+        return $query->result();
+    }
+
+    /**
+     * Deletes a slot
+     * @param type $id
+     */
+    public function deleteSlot($id) {
         $slot = $this->slotmodel;
         $slot->id = $id;
         $slot->delete();
@@ -129,7 +145,7 @@ class Datamodel extends CI_Model {
         $query = $this->db->query($sql);
         return $query->row();
     }
-    
+
     /**
      * Gets an array object of slot schedules
      * @param type $slot_id
@@ -147,26 +163,26 @@ class Datamodel extends CI_Model {
      */
     public function deleteCourse($id) {
         $course = $this->coursemodel;
-        $course->id=$id;
+        $course->id = $id;
         $course->delete();
     }
-    
+
     /**
      * Gets array object of days in a week
      * @return type
      */
-    public function getWeekDays(){
+    public function getWeekDays() {
         $sql = "select * from days";
         $query = $this->db->query($sql);
         return $query->result();
     }
-    
+
     /**
      * Gets day from specified id
      * @param int $id
      * @return object
      */
-    public function getDay($id){
+    public function getDay($id) {
         $sql = "select * from days where id = '$id'";
         $query = $this->db->query($sql);
         return $query->row();

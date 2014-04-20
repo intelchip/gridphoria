@@ -55,8 +55,7 @@ class Post extends CI_Controller {
         $course->description = $this->data["course"]["description"];
         $course->semester = $this->data["course"]["semester"];
         $course->instructor_id = $this->data["course"]["instructor"];
-        $course->schedule = $this->data["course"]["schedule"];
-        $course->slot = $this->data["course"]["slot"];
+        $course->slots = $this->data["course"]["slots"];
 
         if ($course->is_valid()) {
             $course->save();
@@ -78,8 +77,7 @@ class Post extends CI_Controller {
         $course->description = $this->data["course"]["description"];
         $course->semester = $this->data["course"]["semester"];
         $course->instructor_id = $this->data["course"]["instructor"];
-        $course->schedule = $this->data["course"]["schedule"];
-        $course->slot = $this->data["course"]["slot"];
+        $course->slots = $this->data["course"]["slots"];
 
         if ($course->is_valid()) {
             $course->update();
