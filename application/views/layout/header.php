@@ -42,8 +42,15 @@
                         ?>
                     </ul>
                     <ul id="coursesDropdown" class="nav-dropdown tiny f-dropdown" data-options="is_hover:true" data-dropdown-content>
-                        <li><a href="<?php echo base_url(); ?>index.php?/dashboard/add_courses">Add Courses</a></li>
-                        <li><a href="<?php echo base_url(); ?>index.php?/dashboard/view_courses">View Courses</a></li>
+                        <?php
+                        if ($is_current_user_faculty_chair) {
+                            ?>
+                            <li><a href="<?php echo base_url(); ?>index.php?/dashboard/add_courses">Add Courses</a></li>
+                            <?php
+                        }
+                        ?>
+                        <li><a href="<?php echo base_url(); ?>index.php?/dashboard/view_courses/uid_<?php echo $CI->session_uid; ?>">My Courses</a></li>
+                        <li><a href="<?php echo base_url(); ?>index.php?/dashboard/view_courses">View All Courses</a></li>
                     </ul>
                     <ul id="slotsDropdown" class="nav-dropdown tiny f-dropdown" data-options="is_hover:true" data-dropdown-content>
                         <?php

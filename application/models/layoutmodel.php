@@ -23,14 +23,6 @@ class Layoutmodel extends CI_Model {
         $data['page'] = $page;
 
 
-//<link href='../fullcalendar/fullcalendar.css' rel='stylesheet' />
-//<link href='../fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-//<script src='../lib/moment.min.js'></script>
-//<script src='../lib/jquery.min.js'></script>
-//<script src='../lib/jquery-ui.custom.min.js'></script>
-//<script src='../fullcalendar/fullcalendar.min.js'></script>
-
-
         $this->css = array(
             array('bootstrap.min.css'),
             array('bootstrap-timepicker.min.css'),

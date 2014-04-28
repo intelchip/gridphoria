@@ -127,10 +127,16 @@ class Datamodel extends CI_Model {
 
     /**
      * Returns an array object of courses
+     * @param type $uid
+     * @param type $page
      * @return type
      */
-    public function getCourses() {
-        $sql = "select * from courses";
+    public function getCourses($uid = null, $page = null) {
+        if (is_numeric($uid)) {
+            $sql = "select * from courses where instructor_id = '$uid'";
+        } else {
+            $sql = "select * from courses";
+        }
         $query = $this->db->query($sql);
         return $query->result();
     }
@@ -155,6 +161,25 @@ class Datamodel extends CI_Model {
         $sql = "select * from slot_schedule where slot_id = '$slot_id'";
         $query = $this->db->query($sql);
         return $query->result();
+    }
+
+    /**
+     * Updates a course by assigning the course to the current user
+     * @param type $id
+     */
+    public function takeCourse($id) {
+
+        $sql = "update courses set instructor_id = '{$this->session_uid}' where id = '$id'";
+        $this->db->query($sql);
+    }
+
+    /**
+     * Updates a course to TBA
+     * @param type $id
+     */
+    public function leaveCourse($id) {
+        $sql = "update courses set instructor_id = '0' where id = '$id'";
+        $this->db->query($sql);
     }
 
     /**

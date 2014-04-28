@@ -73,17 +73,25 @@ class Dashboard extends CI_Controller {
     public function add_courses() {
         $data = $this->layoutmodel->main("Gridphoria | Add Courses");
         $this->load->view("layout/header", $data);
-        $this->load->view("dashboard/add_courses");
+        if ($this->usermodel->is_curent_user_chair()) {
+            $this->load->view("dashboard/add_courses");
+        } else {
+            echo "You do not have sufficient rights to view this page!";
+        }
         $this->load->view("layout/footer", $data);
     }
 
     /**
      * Page that will list courses
+     * @param type $uid
+     * @param type $page
      */
-    public function view_courses() {
+    public function view_courses($uid = null, $page = null) {
+        $user_id = str_replace("uid_", "", $uid);
         $data = $this->layoutmodel->main("Gridphoria | View Courses");
+        $data["courses"] = $this->datamodel->getCourses($user_id, $page);
         $this->load->view("layout/header", $data);
-        $this->load->view("dashboard/view_courses");
+        $this->load->view("dashboard/view_courses", $data);
         $this->load->view("layout/footer", $data);
     }
 
@@ -95,7 +103,11 @@ class Dashboard extends CI_Controller {
 
         $data = $this->layoutmodel->main("Gridphoria | Edit Course");
         $this->load->view("layout/header", $data);
-        $this->load->view("dashboard/edit_course");
+        if ($this->usermodel->is_curent_user_chair()) {
+            $this->load->view("dashboard/edit_course");
+        } else {
+            echo "You do not have sufficient rights to view this page!";
+        }
         $this->load->view("layout/footer", $data);
     }
 
@@ -104,8 +116,38 @@ class Dashboard extends CI_Controller {
      * @param int $id
      */
     public function delete_course($id) {
-        $this->datamodel->deleteCourse($id);
+
+        if ($this->usermodel->is_curent_user_chair()) {
+            $this->datamodel->deleteCourse($id);
+        }
         redirect("/dashboard/view_courses");
+    }
+
+    /**
+     * Asigns a course to the currently logged in user
+     * @param type $id
+     */
+    public function take_course($id) {
+        if ($id && is_numeric($id)) {
+            $this->datamodel->takeCourse($id);
+            redirect($_SERVER['HTTP_REFERER']);
+        } else {
+            echo "There was an error!";
+        }
+    }
+
+    /**
+     * Changes a course to TBA
+     * @param type $id
+     */
+    public function leave_course($id) {
+        $course = $this->datamodel->getCourse($id);
+        if ($course->instructor_id == $this->session_uid) {
+            $this->datamodel->leaveCourse($id);
+            redirect($_SERVER['HTTP_REFERER']);
+        } else {
+            echo "There was an error!";
+        }
     }
 
     /* ==========================================================================
@@ -119,7 +161,11 @@ class Dashboard extends CI_Controller {
 
         $data = $this->layoutmodel->main("Gridphoria | Add Slots");
         $this->load->view("layout/header", $data);
-        $this->load->view("dashboard/add_slots");
+        if ($data['is_current_user_faculty_chair']) {
+            $this->load->view("dashboard/add_slots");
+        } else {
+            echo "You do not have sufficient rights to view this page!";
+        }
         $this->load->view("layout/footer", $data);
     }
 
@@ -133,7 +179,12 @@ class Dashboard extends CI_Controller {
         $data["slot"] = $this->datamodel->getSlot($id);
         $data["available_spots"] = $this->datamodel->getAvailableSlots($id);
         $this->load->view("layout/header", $data);
-        $this->load->view("dashboard/edit_slot");
+
+        if ($data['is_current_user_faculty_chair']) {
+            $this->load->view("dashboard/edit_slot");
+        } else {
+            echo "You do not have sufficient rights to view this page!";
+        }
         $this->load->view("layout/footer", $data);
     }
 
@@ -155,7 +206,11 @@ class Dashboard extends CI_Controller {
      * @param type $id
      */
     public function delete_slot($id) {
-        $this->datamodel->deleteSlot($id);
+
+        $data = $this->layoutmodel->main("Gridphoria | Delete Slots");
+        if ($data['is_current_user_faculty_chair']) {
+            $this->datamodel->deleteSlot($id);
+        }
         redirect("/dashboard/view_slots");
     }
 

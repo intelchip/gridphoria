@@ -2,7 +2,7 @@
 $CI = & get_instance();
 ?>
 <div class="panel">
-    <h4>View Courses</h4>
+    <h4>Courses</h4>
 </div>
 
 <table class="courses-table full-table-width">
@@ -22,10 +22,11 @@ $CI = & get_instance();
     </thead>
     <tbody>
         <?php
-        foreach ($CI->datamodel->getCourses() as $row) {
+        foreach ($courses as $row) {
             $instructor = $CI->usermodel;
             $instructor->id = $row->instructor_id;
             $instructor->get_user();
+            $instructor_name = $instructor->id != 0 ? $instructor->first_name . " " . $instructor->last_name : "TBA";
             $schedule = function ($result) {
                 $CI = & get_instance();
                 $results = "";
@@ -37,13 +38,13 @@ $CI = & get_instance();
                 }
                 return $results;
             };
-            
-            $slots = function($result){
-                
+
+            $slots = function($result) {
+
                 $CI = & get_instance();
                 $results = "";
                 foreach ($result as $slot) {
-                    $results .= $slot->slot_id .", ";
+                    $results .= $slot->slot_id . ", ";
                 }
                 return $results;
             };
@@ -52,22 +53,23 @@ $CI = & get_instance();
                     <td>{$row->crn}</td>
                     <td>{$row->name}</td>
                     <td>{$row->description}</td>
-                    <td>{$instructor->first_name} {$instructor->last_name}</td>
+                    <td>$instructor_name</td>
                     <td>{$CI->datamodel->getSemester($row->semester)}</td>
                     <td>" . $schedule($CI->datamodel->getCourseSlots($row->id)) . "</td>
                     <td>" . $slots($CI->datamodel->getCourseSlots($row->id)) . "</td>
                     <td><small>" . timespan($row->modified, time()) . " ago</small></td>
                     <td>{$row->modified_by}</td>
-                    <td>" . ($is_current_user_faculty_chair || $instructor->id === $CI->session_uid ? "
+                    <td>" . ($row->instructor_id == 0 ? "<a href='" . base_url() . "index.php?/dashboard/take_course/{$row->id}'>take course</a><br />" : "") . ($is_current_user_faculty_chair ? "
                         <a href='" . base_url() . "index.php?/dashboard/edit_course/{$row->id}'>edit</a><br />
                         <a href='" . base_url() . "index.php?/dashboard/delete_course/{$row->id}'>delete</a>   
                             " : "" ) . "
+                          
                     </td>
                  <tr>";
         }
 
         // If there are no courses display message
-        if (!count($CI->datamodel->getCourses())) {
+        if (!count($courses)) {
             echo "<tr><td colspan=10>No Courses in system!</td></tr>";
         }
         ?>
