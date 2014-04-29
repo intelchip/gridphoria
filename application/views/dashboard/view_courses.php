@@ -26,7 +26,7 @@ $CI = & get_instance();
             $instructor = $CI->usermodel;
             $instructor->id = $row->instructor_id;
             $instructor->get_user();
-            $instructor_name = $instructor->id != 0 ? $instructor->first_name . " " . $instructor->last_name : "TBA";
+            $instructor_name = $instructor->id != 0 ? "<a href='mailto:{$instructor->email}'>" . $instructor->first_name . " " . $instructor->last_name . "</a>": "TBA";
             $schedule = function ($result) {
                 $CI = & get_instance();
                 $results = "";
@@ -59,7 +59,8 @@ $CI = & get_instance();
                     <td>" . $slots($CI->datamodel->getCourseSlots($row->id)) . "</td>
                     <td><small>" . timespan($row->modified, time()) . " ago</small></td>
                     <td>{$row->modified_by}</td>
-                    <td>" . ($row->instructor_id == 0 ? "<a href='" . base_url() . "index.php?/dashboard/take_course/{$row->id}'>take course</a><br />" : "") . ($is_current_user_faculty_chair ? "
+                    <td>" . ($row->instructor_id == 0 ? "<a href='" . base_url() . "index.php?/dashboard/take_course/{$row->id}'>take course</a><br />" : "") 
+                        .($row->instructor_id == $CI->session_uid ? "<a href='" . base_url() . "index.php?/dashboard/release_course/{$row->id}'>release course</a><br />" : "" ) . ($is_current_user_faculty_chair ? "
                         <a href='" . base_url() . "index.php?/dashboard/edit_course/{$row->id}'>edit</a><br />
                         <a href='" . base_url() . "index.php?/dashboard/delete_course/{$row->id}'>delete</a>   
                             " : "" ) . "
@@ -75,3 +76,10 @@ $CI = & get_instance();
         ?>
     </tbody>
 </table>
+
+<?php
+$pages->itemsTotal = $CI->datamodel->getCourseCount();
+$pages->midRange = ceil($CI->datamodel->getCourseCount() / 2);
+$pages->paginate();
+echo $pages->displayPages();
+?>

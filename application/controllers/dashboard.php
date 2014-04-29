@@ -86,10 +86,13 @@ class Dashboard extends CI_Controller {
      * @param type $uid
      * @param type $page
      */
-    public function view_courses($uid = null, $page = null) {
+    public function view_courses($uid = null, $page = 1) {
         $user_id = str_replace("uid_", "", $uid);
         $data = $this->layoutmodel->main("Gridphoria | View Courses");
         $data["courses"] = $this->datamodel->getCourses($user_id, $page);
+        $data["pages"] = $this->paginatormodel;
+        $data["pages"]->currentPage = $page;
+        $data["pages"]->section = "/index.php?/dashboard/view_courses/$uid";
         $this->load->view("layout/header", $data);
         $this->load->view("dashboard/view_courses", $data);
         $this->load->view("layout/footer", $data);
@@ -140,10 +143,10 @@ class Dashboard extends CI_Controller {
      * Changes a course to TBA
      * @param type $id
      */
-    public function leave_course($id) {
+    public function release_course($id) {
         $course = $this->datamodel->getCourse($id);
         if ($course->instructor_id == $this->session_uid) {
-            $this->datamodel->leaveCourse($id);
+            $this->datamodel->releaseCourse($id);
             redirect($_SERVER['HTTP_REFERER']);
         } else {
             echo "There was an error!";

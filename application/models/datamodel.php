@@ -18,6 +18,9 @@ class Datamodel extends CI_Model {
      */
     public static $session_logged_in = null;
 
+    /**
+     * Constructor
+     */
     public function __construct() {
         parent::__construct();
         $this->session_uid = $this->usermodel->session_uid;
@@ -124,6 +127,12 @@ class Datamodel extends CI_Model {
         $slot->id = $id;
         $slot->delete();
     }
+    
+    public function getCourseCount(){
+        $sql = "select * from courses";
+        $query = $this->db->query($sql);
+        return $query->num_rows();
+    }
 
     /**
      * Returns an array object of courses
@@ -131,12 +140,20 @@ class Datamodel extends CI_Model {
      * @param type $page
      * @return type
      */
-    public function getCourses($uid = null, $page = null) {
+    public function getCourses($uid = null, $page = 1) {
+
+        $pages = $this->paginatormodel;
+        $pages->currentPage = $page;
+        $pages->itemsTotal = $this->getCourseCount();
+        $pages->midRange = ceil($this->getCourseCount() / 2);
+        $pages->paginate();
+        
         if (is_numeric($uid)) {
-            $sql = "select * from courses where instructor_id = '$uid'";
+            $sql = "select * from courses where instructor_id = '$uid' $pages->limit";
         } else {
-            $sql = "select * from courses";
+            $sql = "select * from courses $pages->limit";
         }
+        
         $query = $this->db->query($sql);
         return $query->result();
     }
@@ -177,7 +194,7 @@ class Datamodel extends CI_Model {
      * Updates a course to TBA
      * @param type $id
      */
-    public function leaveCourse($id) {
+    public function releaseCourse($id) {
         $sql = "update courses set instructor_id = '0' where id = '$id'";
         $this->db->query($sql);
     }
