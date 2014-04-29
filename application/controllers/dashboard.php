@@ -96,6 +96,25 @@ class Dashboard extends CI_Controller {
         $this->load->view("layout/header", $data);
         $this->load->view("dashboard/view_courses", $data);
         $this->load->view("layout/footer", $data);
+    }    
+    
+    /**
+     * Page that will list courses from search results
+     * @param type $uid
+     * @param type $page
+     */
+    public function search_courses($uid = null, $page = 1) {
+        $user_id = str_replace("uid_", "", $uid);
+        $data = $this->layoutmodel->main("Gridphoria | View Courses");
+        $search = $this->input->post("query");
+        
+        $data["courses"] = $this->datamodel->searchCourses($user_id, $page, $search);
+        $data["pages"] = $this->paginatormodel;
+        $data["pages"]->currentPage = $page;
+        $data["pages"]->section = "/index.php?/dashboard/search_courses/$uid";
+        $this->load->view("layout/header", $data);
+        $this->load->view("dashboard/search_courses", $data);
+        $this->load->view("layout/footer", $data);
     }
 
     /**

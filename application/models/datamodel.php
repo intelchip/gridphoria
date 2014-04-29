@@ -127,8 +127,8 @@ class Datamodel extends CI_Model {
         $slot->id = $id;
         $slot->delete();
     }
-    
-    public function getCourseCount(){
+
+    public function getCourseCount() {
         $sql = "select * from courses";
         $query = $this->db->query($sql);
         return $query->num_rows();
@@ -147,15 +147,64 @@ class Datamodel extends CI_Model {
         $pages->itemsTotal = $this->getCourseCount();
         $pages->midRange = ceil($this->getCourseCount() / 2);
         $pages->paginate();
-        
+
         if (is_numeric($uid)) {
             $sql = "select * from courses where instructor_id = '$uid' $pages->limit";
         } else {
             $sql = "select * from courses $pages->limit";
         }
-        
+
         $query = $this->db->query($sql);
         return $query->result();
+    }
+
+    /**
+     * Returns an array object of courses from search
+     * @param type $uid
+     * @param type $page
+     * @param type $search
+     * @return type
+     */
+    public function searchCourses($uid = null, $page = 1, $search = null) {
+
+        $pages = $this->paginatormodel;
+        $pages->currentPage = $page;
+        $pages->itemsTotal = $this->getCourseCount();
+        $pages->midRange = ceil($this->getCourseCount() / 2);
+        $pages->paginate();
+
+        $terms = explode(',', $search);
+        $clauses = array();
+        foreach ($terms as $term) {
+            //remove any chars you don't want to be searching - adjust to suit
+            //your requirements
+            $clean = trim(preg_replace('/[^a-z0-9]/i', '', $term));
+            if (!empty($clean)) {
+                //note use of mysql_escape_string - while not strictly required
+                //in this example due to the preg_replace earlier, it's good
+                //practice to sanitize your DB inputs in case you modify that
+                //filter...
+                $clauses[] = "crn like '%" . mysql_escape_string($clean) . "%' OR name like '%" . mysql_escape_string($clean) . "%' OR description like '%" . mysql_escape_string($clean) . "%'";
+            }
+        }
+
+        if (!empty($clauses)) {
+            //concatenate the clauses together with AND or OR, depending on
+            //your requirements
+            $filter = '(' . implode(' OR ', $clauses) . ')';
+
+            //build and execute the required SQL
+            $sql = "select * from foo where $filter";
+            if (is_numeric($uid)) {
+                $sql = "select * from courses where instructor_id = '$uid' AND $filter $pages->limit";
+            } else {
+                $sql = "select * from courses where $filter $pages->limit";
+            }
+            
+            $query = $this->db->query($sql);
+            return $query->result();
+        }
+        return array();
     }
 
     /**
