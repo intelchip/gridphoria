@@ -2,7 +2,9 @@
 $CI = & get_instance();
 ?>
 <div class="panel">
-    <h4>Courses</h4>
+    <h4 class="pull-left">Courses</h4>
+    <a class="btn pull-right" href="<?php echo base_url(); ?>index.php?/dashboard/view_semesters/all">View Semesters</a>
+    <div class="clearfix"></div>
 </div>
 
 <div class="row">

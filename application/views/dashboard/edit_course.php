@@ -67,7 +67,7 @@ if ($CI->input->get("success") == "true") {
 
                     <?php
                     foreach ($CI->datamodel->getSemesters() as $row) {
-                        echo "<option value = '{$row->id}' " . ($row->id == $course->semester ? "selected='true'" : "") . ">{$row->semester}</option>";
+                        echo "<option value = '{$row->id}' " . ($row->id == $course->semester ? "selected='true'" : "") . ">{$row->semester} - {$row->year}</option>";
                     }
                     ?>
                 </select>

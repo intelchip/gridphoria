@@ -41,8 +41,12 @@ class Datamodel extends CI_Model {
      * Returns an array of objects from the semesters table
      * @return type
      */
-    public function getSemesters() {
-        $sql = "select * from semesters";
+    public function getSemesters($year = null) {
+        if (!$year || $year == "all") {
+            $sql = "select * from semesters";
+        } else {
+            $sql = "select * from semesters where year = '$year'";
+        }
         $query = $this->db->query($sql);
         return $query->result();
     }
@@ -57,6 +61,18 @@ class Datamodel extends CI_Model {
         $query = $this->db->query($sql);
         $row = $query->row();
         return $row->semester;
+    }
+
+    /**
+     * Checks whether a semester exists
+     * @param string $semester
+     * @param int $year
+     * @return boolean
+     */
+    public function semesterExists($semester, $year) {
+        $sql = "select * from semesters where semester like '%$semester%' && year = '$year'";
+        $query = $this->db->query($sql);
+        return $query->num_rows() > 0;
     }
 
     /**
@@ -128,6 +144,10 @@ class Datamodel extends CI_Model {
         $slot->delete();
     }
 
+    /**
+     * Gets course count
+     * @return type
+     */
     public function getCourseCount() {
         $sql = "select * from courses";
         $query = $this->db->query($sql);
@@ -137,10 +157,12 @@ class Datamodel extends CI_Model {
     /**
      * Returns an array object of courses
      * @param type $uid
+     * @param type $year
+     * @param type $semester
      * @param type $page
      * @return type
      */
-    public function getCourses($uid = null, $page = 1) {
+    public function getCourses($uid = null, $year = null, $semester = "Fall", $page = 1) {
 
         $pages = $this->paginatormodel;
         $pages->currentPage = $page;
@@ -148,7 +170,14 @@ class Datamodel extends CI_Model {
         $pages->midRange = ceil($this->getCourseCount() / 2);
         $pages->paginate();
 
-        if (is_numeric($uid)) {
+        $sql = "select * from semesters where semester = '$semester' && year = '$year'";
+        $semesterResult = $this->db->query($sql)->row();
+
+        if (is_numeric($uid) && $semesterResult) {
+            $sql = "select * from courses where instructor_id = '$uid' && semester = '$semesterResult->id' $pages->limit";
+        } else if (!is_numeric($uid) && $semesterResult) {
+            $sql = "select * from courses where semester = '$semesterResult->id' $pages->limit";
+        } else if (is_numeric($uid) && !$semesterResult) {
             $sql = "select * from courses where instructor_id = '$uid' $pages->limit";
         } else {
             $sql = "select * from courses $pages->limit";
@@ -200,7 +229,7 @@ class Datamodel extends CI_Model {
             } else {
                 $sql = "select * from courses where $filter $pages->limit";
             }
-            
+
             $query = $this->db->query($sql);
             return $query->result();
         }

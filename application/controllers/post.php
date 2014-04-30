@@ -42,9 +42,10 @@ class Post extends CI_Controller {
         redirect(base_url() . '/');
     }
 
-    /*==========================================================================
-        Courses
-     * =========================================================================*/
+    /* ==========================================================================
+      Courses
+     * ========================================================================= */
+
     /**
      * Adds courses to the DB
      */
@@ -64,12 +65,12 @@ class Post extends CI_Controller {
             redirect($_SERVER['HTTP_REFERER'] . "?success=error");
         }
     }
-    
+
     /**
      * Updates a course
      * @param int $id
      */
-    public function edit_course(){        
+    public function edit_course() {
         $course = $this->coursemodel;
         $course->id = $this->data["course"]["id"];
         $course->crn = $this->data["course"]["crn"];
@@ -86,11 +87,32 @@ class Post extends CI_Controller {
             redirect("/dashboard/edit_course/{$course->id}?success=error");
         }
     }
-    
-    
-    /*==========================================================================
-        Slots
-     * =========================================================================*/
+
+    /* ==========================================================================
+      Semesters
+     * ========================================================================= */
+
+    /**
+     * Creates/opens a semester
+     */
+    public function open_semester() {
+        $semester = $this->semestermodel;
+        $semester->semester = $this->data["semester"]["name"];
+        $semester->year = $this->data["semester"]["year"];
+        $semester->modified = time();
+        $semester->modified_by = "Chair";
+
+        if (!$this->datamodel->semesterExists($semester->semester, $semester->year)) {
+            $semester->save();
+            redirect("/dashboard/open_semester?success=true");
+        } else {
+            redirect("/dashboard/open_semester?success=error");
+        }
+    }
+
+    /* ==========================================================================
+      Slots
+     * ========================================================================= */
 
     /**
      * Adds slots to the DB

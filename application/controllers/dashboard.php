@@ -86,18 +86,24 @@ class Dashboard extends CI_Controller {
      * @param type $uid
      * @param type $page
      */
-    public function view_courses($uid = null, $page = 1) {
+    public function view_courses($uid = null, $year = null, $semester = null, $page = 1) {
         $user_id = str_replace("uid_", "", $uid);
+        if (!$year) {
+            $year = date("Y");
+        } else if (!$semester) {
+            $semester = "Fall";
+        }
+
         $data = $this->layoutmodel->main("Gridphoria | View Courses");
-        $data["courses"] = $this->datamodel->getCourses($user_id, $page);
+        $data["courses"] = $this->datamodel->getCourses($user_id, $year, $semester, $page);
         $data["pages"] = $this->paginatormodel;
         $data["pages"]->currentPage = $page;
-        $data["pages"]->section = "/index.php?/dashboard/view_courses/$uid";
+        $data["pages"]->section = "/index.php?/dashboard/view_courses/$uid/$year/$semester";
         $this->load->view("layout/header", $data);
         $this->load->view("dashboard/view_courses", $data);
         $this->load->view("layout/footer", $data);
-    }    
-    
+    }
+
     /**
      * Page that will list courses from search results
      * @param type $uid
@@ -107,7 +113,7 @@ class Dashboard extends CI_Controller {
         $user_id = str_replace("uid_", "", $uid);
         $data = $this->layoutmodel->main("Gridphoria | View Courses");
         $search = $this->input->post("query");
-        
+
         $data["courses"] = $this->datamodel->searchCourses($user_id, $page, $search);
         $data["pages"] = $this->paginatormodel;
         $data["pages"]->currentPage = $page;
@@ -170,6 +176,35 @@ class Dashboard extends CI_Controller {
         } else {
             echo "There was an error!";
         }
+    }
+
+    /* ==========================================================================
+     * Semesters Section 
+     * ========================================================================= */
+
+    public function view_semesters($year = null) {
+        if (!$year) {
+            $year = date("Y");
+        }
+
+        $data = $this->layoutmodel->main("Gridphoria | Semesters");
+        $data["semesters"] = $this->datamodel->getSemesters($year);
+        $data["year"] = $year;
+        $this->load->view("layout/header", $data);
+        $this->load->view("dashboard/view_semesters", $data);
+        $this->load->view("layout/footer", $data);
+    }
+
+    public function open_semester() {
+
+        $data = $this->layoutmodel->main("Gridphoria | Open Semester");
+        $this->load->view("layout/header", $data);
+        if ($data['is_current_user_faculty_chair']) {
+            $this->load->view("dashboard/open_semester");
+        } else {
+            echo "You do not have sufficient rights to view this page!";
+        }
+        $this->load->view("layout/footer", $data);
     }
 
     /* ==========================================================================
