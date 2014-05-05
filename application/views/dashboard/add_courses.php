@@ -47,10 +47,10 @@ if ($CI->input->get("success") == "true") {
         <div class="instructor-field">
             <label>Instructor
                 <select name="data[course][instructor]">
-                    <option value="0">-- Select an instructor</option>
+                    <option value="0">TBA</option>
                     <?php
                     foreach ($CI->datamodel->getInstructors() as $row) {
-                        echo "<option value='{$row->id}' " . ($CI->session_uid == $row->id ? "selected" : "") . ">{$row->first_name} {$row->last_name}</option>";
+                        echo "<option value='{$row->id}'>{$row->first_name} {$row->last_name}</option>";
                     }
                     ?>
                 </select>

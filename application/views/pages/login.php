@@ -35,6 +35,11 @@ if ($message == "fail") {
             </label>
         </div>
 
+        <?php
+        echo anchor(base_url("index.php?/pages/forgotpassword"), "Forgot Password?", "class='pull-right'");
+        ?>
+        <div class="clearfix"></div>
+
         <input type="submit" class="button radius" value="Login" />
     </div>
 </form>

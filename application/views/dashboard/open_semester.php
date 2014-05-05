@@ -28,7 +28,9 @@ if ($CI->input->get("success") == "true") {
                 <select name="data[semester][name]" required>
                     <option value="">-- Select a Semester --</option>
                     <option value="Fall">Fall</option>
+                    <option value="Winter">Winter</option>
                     <option value="Spring">Spring</option>
+                    <option value="Summer">Summer</option>
                 </select>
                 <small class="error">A semester is required!</small>
             </label>
@@ -38,10 +40,10 @@ if ($CI->input->get("success") == "true") {
                 <?php
                 $years = array();
                 $range = 5;
-                $startYear = (int)date("Y");
-                
+                $startYear = (int) date("Y");
+
                 // add our year range +/- 5years
-                for($i = 0; $i < $range; $i++){
+                for ($i = 0; $i < $range; $i++) {
                     $year = $startYear + $i;
                     array_push($years, $year);
                 }
@@ -49,7 +51,7 @@ if ($CI->input->get("success") == "true") {
                 <select name="data[semester][year]" required>
                     <option value="">-- Select a year --</option>
                     <?php
-                    foreach($years as $year){
+                    foreach ($years as $year) {
                         echo "<option value='$year'>$year</option>";
                     }
                     ?>

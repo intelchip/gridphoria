@@ -43,7 +43,7 @@ class Datamodel extends CI_Model {
      */
     public function getSemesters($year = null) {
         if (!$year || $year == "all") {
-            $sql = "select * from semesters";
+            $sql = "select * from semesters order by year desc";
         } else {
             $sql = "select * from semesters where year = '$year'";
         }
@@ -170,17 +170,17 @@ class Datamodel extends CI_Model {
         $pages->midRange = ceil($this->getCourseCount() / 2);
         $pages->paginate();
 
-        $sql = "select * from semesters where semester = '$semester' && year = '$year'";
+        $sql = "select * from semesters where semester = '$semester' && year = '$year' order by id desc";
         $semesterResult = $this->db->query($sql)->row();
 
         if (is_numeric($uid) && $semesterResult) {
-            $sql = "select * from courses where instructor_id = '$uid' && semester = '$semesterResult->id' $pages->limit";
+            $sql = "select * from courses where instructor_id = '$uid' && semester = '$semesterResult->id' order by id desc $pages->limit";
         } else if (!is_numeric($uid) && $semesterResult) {
-            $sql = "select * from courses where semester = '$semesterResult->id' $pages->limit";
+            $sql = "select * from courses where semester = '$semesterResult->id' order by id desc $pages->limit";
         } else if (is_numeric($uid) && !$semesterResult) {
-            $sql = "select * from courses where instructor_id = '$uid' $pages->limit";
+            $sql = "select * from courses where instructor_id = '$uid' order by id desc $pages->limit";
         } else {
-            $sql = "select * from courses $pages->limit";
+            $sql = "select * from courses order by id desc $pages->limit";
         }
 
         $query = $this->db->query($sql);
@@ -225,9 +225,9 @@ class Datamodel extends CI_Model {
             //build and execute the required SQL
             $sql = "select * from foo where $filter";
             if (is_numeric($uid)) {
-                $sql = "select * from courses where instructor_id = '$uid' AND $filter $pages->limit";
+                $sql = "select * from courses where instructor_id = '$uid' AND $filter order by id desc  $pages->limit";
             } else {
-                $sql = "select * from courses where $filter $pages->limit";
+                $sql = "select * from courses where $filter order by id desc $pages->limit";
             }
 
             $query = $this->db->query($sql);
