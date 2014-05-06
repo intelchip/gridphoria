@@ -1,6 +1,6 @@
 --
--- MySQL 5.6.17
--- Thu, 03 Apr 2014 04:29:05 +0000
+-- MySQL 5.5.31
+-- Tue, 06 May 2014 04:30:53 +0000
 --
 
 CREATE TABLE `courses` (
@@ -10,15 +10,15 @@ CREATE TABLE `courses` (
    `description` text not null,
    `instructor_id` int(11) not null,
    `semester` int(11) not null,
-   `slot` int(11) not null,
    `modified` int(11) not null,
    `modified_by` varchar(200) not null,
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=9;
 
-INSERT INTO `courses` (`id`, `crn`, `name`, `description`, `instructor_id`, `semester`, `slot`, `modified`, `modified_by`) VALUES 
-('3', '1091', 'Test course', 'Test', '2', '1', '2', '1396417732', 'SYS'),
-('4', '1234', 'cs 1', 'fghjj', '2', '2', '8', '1396473157', 'SYS');
+INSERT INTO `courses` (`id`, `crn`, `name`, `description`, `instructor_id`, `semester`, `modified`, `modified_by`) VALUES 
+('6', '1096', 'Test course', 'This is just a test', '0', '2', '1398711471', 'SYS'),
+('7', '19990', 'Test TBA course', 'sasdasdasda', '4', '1', '1398288199', 'SYS'),
+('8', '121032', 'Software Development II', 'This is software development 2', '2', '3', '1398893322', 'SYS');
 
 CREATE TABLE `days` (
    `id` int(11) not null auto_increment,
@@ -50,14 +50,17 @@ INSERT INTO `roles` (`id`, `role`, `modified`, `modified_by`) VALUES
 CREATE TABLE `semesters` (
    `id` int(11) not null auto_increment,
    `semester` varchar(200) not null,
+   `year` int(11) not null,
    `modified` int(11) not null,
    `modified_by` varchar(200) not null,
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5;
 
-INSERT INTO `semesters` (`id`, `semester`, `modified`, `modified_by`) VALUES 
-('1', 'Fall', '1396068897', 'SYS'),
-('2', 'Spring', '1396068897', 'SYS');
+INSERT INTO `semesters` (`id`, `semester`, `year`, `modified`, `modified_by`) VALUES 
+('1', 'Fall', '2014', '1396068897', 'SYS'),
+('2', 'Spring', '2014', '1396068897', 'SYS'),
+('3', 'Fall', '2015', '1398835104', 'Chair'),
+('4', 'Spring', '2015', '1398835113', 'Chair');
 
 CREATE TABLE `slot_allocation` (
    `id` int(11) not null auto_increment,
@@ -66,11 +69,14 @@ CREATE TABLE `slot_allocation` (
    `modified` int(11) not null,
    `modified_by` varchar(11) not null,
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=26;
 
 INSERT INTO `slot_allocation` (`id`, `course_id`, `slot_id`, `modified`, `modified_by`) VALUES 
-('1', '3', '2', '1396398658', 'SYS'),
-('2', '4', '8', '1396473157', 'SYS');
+('18', '7', '3', '1398288199', 'SYS'),
+('22', '6', '1', '1398711471', 'SYS'),
+('23', '6', '2', '1398711471', 'SYS'),
+('24', '6', '4', '1398711471', 'SYS'),
+('25', '8', '4', '1398893322', 'SYS');
 
 CREATE TABLE `slot_schedule` (
    `id` int(11) not null auto_increment,
@@ -176,11 +182,13 @@ CREATE TABLE `users` (
    `last_name` varchar(200) not null,
    `password` text not null,
    `role_id` int(11) not null,
+   `enabled` int(11) not null,
    `modified` int(11) not null,
    `modified_by` varchar(200) not null,
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5;
 
-INSERT INTO `users` (`id`, `email`, `first_name`, `last_name`, `password`, `role_id`, `modified`, `modified_by`) VALUES 
-('2', 'arama.james@gmail.com', 'James', 'Arama', 'c747a57bf4405fbce591c994e928b00521f260e3', '1', '1396458102', 'SYS'),
-('3', 'ronncoleman@gmail.com', 'Ron', 'Coleman', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '2', '1396472562', 'SYS');
+INSERT INTO `users` (`id`, `email`, `first_name`, `last_name`, `password`, `role_id`, `enabled`, `modified`, `modified_by`) VALUES 
+('2', 'arama.james@gmail.com', 'James', 'Arama', 'c747a57bf4405fbce591c994e928b00521f260e3', '1', '1', '1399329891', 'SYS'),
+('3', 'ronncoleman@gmail.com', 'Ron', 'Coleman', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '2', '1', '1396472562', 'SYS'),
+('4', 'Gregory.Cremins1@marist.edu', 'Greg', 'Cremins', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '2', '1', '1398288176', 'SYS');
