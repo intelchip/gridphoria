@@ -19,6 +19,7 @@ class UserModel implements UserInterface {
     private $last_name;
     private $password;
     private $role_id;
+    private $enabled;
     private $modified;
     private $modified_by;
 
@@ -168,6 +169,7 @@ class UserModel implements UserInterface {
             $this->last_name = $row->last_name;
             $this->password = $row->password;
             $this->role_id = $row->role_id;
+            $this->enabled = $row->enabled;
             $this->modified = $row->modified;
             $this->modified_by = $row->modified_by;
             return $this;
@@ -199,6 +201,7 @@ class UserModel implements UserInterface {
             $this->last_name = $row->last_name;
             $this->password = $row->password;
             $this->role_id = $row->role_id;
+            $this->enabled = $row->enabled;
             $this->modified = $row->modified;
             $this->modified_by = $row->modified_by;
         }
@@ -232,6 +235,7 @@ class UserModel implements UserInterface {
                         last_name,
                         password,
                         role_id,
+                        enabled,
                         modified,
                         modified_by)
               values('{$this->email}', 
@@ -239,6 +243,7 @@ class UserModel implements UserInterface {
                         '{$this->last_name}', 
                         '{$this->password}', 
                         '{$this->role_id}', 
+                            1,
                         '{$this->modified}', 
                         '{$this->modified_by}')";
 
@@ -259,6 +264,7 @@ class UserModel implements UserInterface {
                     email = '{$this->email}', 
                     password = '{$this->password}', 
                     role_id = '{$this->role_id}', 
+                    enabled = '{$this->enabled}',
                     modified = '{$this->modified}', 
                     modified_by = '{$this->modified_by}'
                 where 

@@ -6,7 +6,7 @@ $message = $CI->uri->segment(3);
 if ($message == "fail") {
     ?>
     <div data-alert class="alert-box warning">
-        There is a problem logging in. Please try again!
+        There is a problem logging in. Your account might also be disabled. Please try again!
         <a href="#" class="close">&times;</a>
 
     </div>

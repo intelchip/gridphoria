@@ -63,6 +63,13 @@
                         <li><a href="<?php echo base_url(); ?>index.php?/dashboard/view_slots">View Slots</a></li>
                     </ul>
                     <ul id="accountDropdown" class="nav-dropdown tiny f-dropdown" data-options="is_hover:true" data-dropdown-content>
+                        <?php
+                        if ($is_current_user_faculty_chair) {
+                            ?>
+                            <li><a href="<?php echo base_url(); ?>index.php?/dashboard/users">Users</a></li>
+                            <?php
+                        }
+                        ?>
                         <li><a href="<?php echo base_url(); ?>index.php?/dashboard/account_settings">Settings</a></li>
                         <li><a href="<?php echo base_url(); ?>index.php?/dashboard/logout">Logout</a></li>
                     </ul>

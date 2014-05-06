@@ -271,6 +271,49 @@ class Dashboard extends CI_Controller {
         redirect("/dashboard/view_slots");
     }
 
+    /* ==========================================================================
+     * Users Section 
+     * ========================================================================= */
+
+    public function users() {
+
+        $data = $this->layoutmodel->main("Gridphoria | Users");
+        $data["users"] = $this->datamodel->getUsers();
+        $this->load->view("layout/header", $data);
+        if ($data['is_current_user_faculty_chair']) {
+            $this->load->view("dashboard/users");
+        } else {
+            echo "You do not have sufficient rights to view this page!";
+        }
+        $this->load->view("layout/footer", $data);
+    }
+
+    public function enable_user($id) {
+
+        $user = $this->usermodel;
+        $user->id = $id;
+        $user->get_user();
+
+        if ($user->check_user()) {
+            $user->enabled = 1;
+            $user->update();
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function disable_user($id) {
+
+        $user = $this->usermodel;
+        $user->id = $id;
+        $user->get_user();
+
+        if ($user->check_user()) {
+            $user->enabled = 0;
+            $user->update();
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
     /**
      * Logs out the user by destroying the current session
      */

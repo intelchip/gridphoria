@@ -28,6 +28,16 @@ class Datamodel extends CI_Model {
     }
 
     /**
+     * Returns an array of objects from the users table
+     * @return type
+     */
+    public function getUsers() {
+        $sql = "select * from users";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
+    /**
      * Returns an array of objects from the roles table
      * @return type
      */
@@ -35,6 +45,17 @@ class Datamodel extends CI_Model {
         $sql = "select * from roles";
         $query = $this->db->query($sql);
         return $query->result();
+    }
+
+    /**
+     * Returns row from databased based on id
+     * @param int $id
+     * @return type
+     */
+    public function getRole($id) {
+        $sql = "select * from roles where id='$id'";
+        $query = $this->db->query($sql);
+        return $query->row();
     }
 
     /**

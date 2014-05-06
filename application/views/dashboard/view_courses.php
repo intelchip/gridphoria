@@ -79,7 +79,7 @@ $CI = & get_instance();
                             " : "" ) . "
                           
                     </td>
-                 <tr>";
+                 </tr>";
         }
 
         // If there are no courses display message

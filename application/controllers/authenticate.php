@@ -51,7 +51,7 @@ class Authenticate extends CI_Controller {
         $this->usermodel->email = $this->db->escape_str($data["user"]["email"]);
         $this->usermodel->password = $this->db->escape_str(sha1($data["user"]["password"]));
 
-        if ($this->usermodel->authenticate_user()) {
+        if ($this->usermodel->authenticate_user() && $this->usermodel->enabled) {
 
             $newdata = array(
                 'uid' => $this->usermodel->id,
@@ -129,8 +129,8 @@ class Authenticate extends CI_Controller {
     /**
      * Updates current user in db
      */
-    public function update_user() {    
-        
+    public function update_user() {
+
         // redirect users if there is no session		
         if (!$this->session_uid) {
             redirect("/");
@@ -172,13 +172,13 @@ class Authenticate extends CI_Controller {
     /**
      * Updates user's password
      */
-    public function update_password() {       
+    public function update_password() {
 
         // redirect users if there is no session		
         if (!$this->session_uid) {
             redirect("/");
         }
-        
+
         if ($this->data) {
             $password = sha1($this->data['user']['password']);
             $cpassword = sha1($this->data['user']['cpassword']);

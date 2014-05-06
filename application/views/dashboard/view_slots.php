@@ -10,7 +10,6 @@ if ($CI->input->get("success") == "true") {
     <div data-alert class="alert-box success radius">
         You have successfully updated the slots table.
         <a href="#" class="close">&times;</a>
-
     </div>
 <?php } else if ($CI->input->get("success") == "error") {
     ?>
